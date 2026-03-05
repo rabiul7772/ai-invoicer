@@ -1,0 +1,126 @@
+@import 'tailwindcss';
+
+:root {
+  /* Colors - Deep Dark Green & Neon Aesthetic */
+  --color-bg-deep: #06120c;
+  --color-bg-card: #0a1d14;
+  --color-bg-accent: #0f2b1d;
+
+  --color-primary: #00ff88;
+  --color-primary-hover: #00e67a;
+  --color-primary-muted: rgba(0, 255, 136, 0.1);
+  --color-primary-glow: rgba(0, 255, 136, 0.3);
+
+  --color-text-white: #ffffff;
+  --color-text-bright: #f8fafc;
+  --color-text-dim: #94a3b8;
+  --color-text-muted: #64748b;
+
+  --color-border: rgba(0, 255, 136, 0.1);
+  --color-border-hover: rgba(0, 255, 136, 0.25);
+
+  /* Typography Scale (Minor Third) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+
+  /* Spacing System (8px Base) */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows & Effects */
+  --shadow-neon: 0 0 20px -5px var(--color-primary-glow);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --glass-bg: rgba(10, 29, 20, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  * {
+    @apply border-gray-800;
+  }
+
+  button,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  body {
+    @apply bg-(--color-bg-deep) text-(--color-text-bright) antialiased;
+    font-family:
+      'Inter',
+      system-ui,
+      -apple-system,
+      sans-serif;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold tracking-tight text-(--color-text-white);
+  }
+}
+
+@layer components {
+  /* Layout Containers */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 lg:px-8;
+  }
+
+  /* Buttons */
+  .btn-neon-primary {
+    @apply bg-(--color-primary) text-(--color-bg-deep) font-extrabold px-(--space-6) py-(--space-3) rounded-md
+           hover:bg-(--color-primary-hover) hover:shadow-(--shadow-neon) hover:scale-[1.02] 
+           active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2;
+  }
+
+  .btn-neon-outline {
+    @apply border-2 border-(--color-bg-accent) bg-transparent text-(--color-text-bright) font-bold px-(--space-6) py-(--space-3) rounded-md
+           hover:border-(--color-primary) hover:text-(--color-primary) 
+           active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2;
+  }
+
+  /* Cards */
+  .card-premium {
+    @apply bg-(--color-bg-card) border border-(--color-border) rounded-lg p-(--space-8) 
+           hover:border-(--color-border-hover) hover:translate-y-[-4px] transition-all duration-300 shadow-(--shadow-card);
+  }
+
+  /* Typography Utilities */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-linear-to-r from-(--color-text-white) to-(--color-primary);
+  }
+
+  .section-label {
+    @apply text-(--color-primary) text-xs font-black uppercase tracking-[0.2em] mb-(--space-4) block;
+  }
+}
