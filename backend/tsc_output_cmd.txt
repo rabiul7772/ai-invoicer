@@ -1,0 +1,9 @@
+src/config/cloudinary.ts(6,19): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(new_config?: boolean | ConfigOptions | undefined): ConfigOptions', gave the following error.
+    Argument of type '{ cloud_name: string | undefined; api_key: string | undefined; api_secret: string | undefined; }' is not assignable to parameter of type 'boolean | ConfigOptions | undefined'.
+      Type '{ cloud_name: string | undefined; api_key: string | undefined; api_secret: string | undefined; }' is not assignable to type 'ConfigOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+        Types of property 'cloud_name' are incompatible.
+          Type 'string | undefined' is not assignable to type 'string'.
+            Type 'undefined' is not assignable to type 'string'.
+  Overload 2 of 3, '(key: keyof ConfigOptions, value?: undefined): any', gave the following error.
+    Argument of type '{ cloud_name: string | undefined; api_key: string | undefined; api_secret: string | undefined; }' is not assignable to parameter of type 'keyof ConfigOptions'.
