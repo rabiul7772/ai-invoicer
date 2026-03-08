@@ -124,3 +124,15 @@
     @apply text-(--color-primary) text-xs font-black uppercase tracking-[0.2em] mb-(--space-4) block;
   }
 }
+
+/* Make native date picker calendar icon white */
+input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

@@ -1,3 +1,8 @@
+export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
+  .VITE_CLOUDINARY_UPLOAD_PRESET;
+
 import {
   BarChart3,
   Github,
@@ -6,7 +11,11 @@ import {
   MessageCircle,
   Sparkles,
   Twitter,
-  Users
+  Users,
+  FileText,
+  LayoutDashboard,
+  PlusCircle,
+  User
 } from 'lucide-react';
 
 export const NAV_LINKS = [
@@ -14,7 +23,14 @@ export const NAV_LINKS = [
   { label: 'Testimonials', href: '#testimonials' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' }
-] as const;
+];
+
+export const navItems = [
+  { icon: LayoutDashboard, label: 'Dashboard', to: '/dashboard' },
+  { icon: FileText, label: 'Invoices', to: '/invoices' },
+  { icon: PlusCircle, label: 'Create Invoice', to: '/create-invoice' },
+  { icon: User, label: 'Profile', to: '/profile' }
+];
 
 export const FEATURES_DATA = [
   {
@@ -156,5 +172,55 @@ export const FOOTER_LINKS = [
       { label: 'Privacy Policy', href: '#' },
       { label: 'Terms of Service', href: '#' }
     ]
+  }
+];
+
+export const billFromFields = [
+  {
+    name: 'businessName',
+    label: 'Business Name',
+    placeholder: 'Your Agency Name'
+  },
+  {
+    name: 'email',
+    label: 'Email Address',
+    placeholder: 'billing@agency.com',
+    type: 'email'
+  },
+  {
+    name: 'address',
+    label: 'Address',
+    placeholder: '123 Creative St, Suite 100...',
+    isTextarea: true
+  },
+  {
+    name: 'phoneNumber',
+    label: 'Phone Number',
+    placeholder: '+1 (555) 000-0000'
+  }
+];
+
+export const billToFields = [
+  {
+    name: 'clientName',
+    label: 'Client Name',
+    placeholder: 'Client or Company Name'
+  },
+  {
+    name: 'clientEmail',
+    label: 'Client Email',
+    placeholder: 'client@example.com',
+    type: 'email'
+  },
+  {
+    name: 'clientAddress',
+    label: 'Client Address',
+    placeholder: '456 Client Avenue...',
+    isTextarea: true
+  },
+  {
+    name: 'clientPhone',
+    label: 'Client Phone',
+    placeholder: '+1 (555) 123-4567'
   }
 ];
