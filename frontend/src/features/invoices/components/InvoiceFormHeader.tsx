@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button } from '../../../components/ui/Button';
 import { useFormContext } from 'react-hook-form';
 import { ChevronLeft, Sparkles } from 'lucide-react';
 import { Link } from 'react-router';
+import { CreateWithAIModal } from './CreateWithAIModal';
 
 interface InvoiceFormHeaderProps {
   isEditing: boolean;
@@ -9,6 +11,7 @@ interface InvoiceFormHeaderProps {
 
 export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
   const { reset } = useFormContext();
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   return (
     <div className="space-y-6 mb-10">
@@ -22,8 +25,8 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
         </Link>
       )}
 
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="flex justify-between items-center text-left">
+        <div className="flex-1">
           <h1 className="text-4xl font-black text-(--color-text-bright) tracking-tight">
             {isEditing ? 'Edit Invoice' : 'Create Invoice'}
           </h1>
@@ -33,22 +36,32 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
               : 'Fill in the details below to generate a professional invoice.'}
           </p>
         </div>
-        <Button
-          variant="outline"
-          className="border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
-          icon={Sparkles}
-        >
-          Create with AI
-        </Button>
-        <Button
-          variant="ghost"
-          type="button"
-          className="border border-(--color-primary)"
-          onClick={() => reset()}
-        >
-          Discard
-        </Button>
+
+        <div className="flex items-center gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            className="border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
+            icon={Sparkles}
+            onClick={() => setIsAIModalOpen(true)}
+          >
+            Create with AI
+          </Button>
+          <Button
+            variant="ghost"
+            type="button"
+            className="border border-(--color-primary)"
+            onClick={() => reset()}
+          >
+            Discard
+          </Button>
+        </div>
       </div>
+
+      <CreateWithAIModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+      />
     </div>
   );
 };

@@ -7,7 +7,7 @@ interface SendEmailOptions {
   html: string;
   attachments?: {
     filename: string;
-    content: Buffer;
+    content: Buffer | Uint8Array;
     contentType: string;
   }[];
 }
@@ -42,7 +42,7 @@ class EmailService {
       to: options.to,
       subject: options.subject,
       html: options.html,
-      attachments: options.attachments
+      attachments: options.attachments as any
     };
 
     return await this.transporter.sendMail(mailOptions);

@@ -29,7 +29,7 @@ export interface IInvoice extends Document {
   subtotal: number;
   taxTotal: number;
   totalAmount: number;
-  status: 'DRAFT' | 'SENT' | 'PAID';
+  status: 'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE';
 }
 
 const invoiceItemSchema = new Schema<IInvoiceItem>({
@@ -70,7 +70,7 @@ const invoiceSchema = new Schema<IInvoice>(
     totalAmount: { type: Number, required: true, min: 0 },
     status: {
       type: String,
-      enum: ['DRAFT', 'SENT', 'PAID'],
+      enum: ['DRAFT', 'SENT', 'PAID', 'OVERDUE'],
       default: 'DRAFT'
     }
   },

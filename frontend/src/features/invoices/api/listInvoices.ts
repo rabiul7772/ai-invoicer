@@ -30,7 +30,7 @@ export interface IInvoice {
   subtotal: number;
   taxTotal: number;
   totalAmount: number;
-  status: 'DRAFT' | 'SENT' | 'PAID';
+  status: 'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE';
   createdAt: string;
   updatedAt: string;
 }

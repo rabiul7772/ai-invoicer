@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Plus, Sparkles } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { Link } from 'react-router';
+import { CreateWithAIModal } from './CreateWithAIModal';
 
 export const InvoicesHeader = () => {
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
       <div>
@@ -19,6 +23,7 @@ export const InvoicesHeader = () => {
           variant="outline"
           className="border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
           icon={Sparkles}
+          onClick={() => setIsAIModalOpen(true)}
         >
           Create with AI
         </Button>
@@ -28,6 +33,11 @@ export const InvoicesHeader = () => {
           </Button>
         </Link>
       </div>
+
+      <CreateWithAIModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+      />
     </div>
   );
 };
