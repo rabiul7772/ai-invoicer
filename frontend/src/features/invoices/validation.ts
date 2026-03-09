@@ -32,7 +32,7 @@ export const invoiceSchema = z.object({
   subtotal: z.number().min(0),
   taxTotal: z.number().min(0),
   totalAmount: z.number().min(0),
-  status: z.enum(['DRAFT', 'SENT', 'PAID'])
+  status: z.enum(['DRAFT', 'SENT', 'PAID', 'OVERDUE'])
 });
 
 export type InvoiceFormValues = z.infer<typeof invoiceSchema>;
