@@ -22,5 +22,5 @@ export const generatePDF = async (html: string) => {
 
   await browser.close();
 
-  return pdfBuffer;
+  return Buffer.from(pdfBuffer);
 };

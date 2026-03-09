@@ -16,7 +16,7 @@ export const SendInvoiceInput = ({
   rows = 5
 }: Props) => {
   const baseClasses =
-    'w-full bg-(--color-bg-input) border border-(--color-border) rounded-lg px-4 py-3 text-(--color-text-bright) focus:outline-none focus:ring-2 focus:ring-(--color-primary) transition-all';
+    'w-full bg-(--color-bg-input) border border-(--color-border) rounded-lg px-4 py-2 text-(--color-text-bright) focus:outline-none focus:ring-2 focus:ring-(--color-primary) transition-all';
 
   return (
     <div className="space-y-2">

@@ -1,7 +1,7 @@
 import { DashboardLayout } from '../components/layout/DashboardLayout';
 import { InvoiceForm } from '../features/invoices/components/InvoiceForm';
 
-const CreateInvoice = () => {
+const CreateEditInvoice = () => {
   return (
     <DashboardLayout>
       <InvoiceForm />
@@ -9,4 +9,4 @@ const CreateInvoice = () => {
   );
 };
 
-export default CreateInvoice;
+export default CreateEditInvoice;

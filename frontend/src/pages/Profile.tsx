@@ -5,19 +5,12 @@ import { PersonalProfileForm } from '../features/profile/components/PersonalProf
 import { BusinessInfoForm } from '../features/profile/components/BusinessInfoForm';
 import { BrandingForm } from '../features/profile/components/BrandingForm';
 import { useProfileForm } from '../features/profile/hooks/useProfileForm';
-import { PageSpinner } from '../components/ui/Spinner';
 
 const Profile = () => {
-  const { methods, isPending, isSaving, isUploading, profileData, onSubmit } =
+  const { methods, isSaving, isUploading, profileData, onSubmit } =
     useProfileForm();
-
-  if (isPending) {
-    return (
-      <DashboardLayout>
-        <PageSpinner size="lg" />
-      </DashboardLayout>
-    );
-  }
+  // Removed blocking PageSpinner to allow skeleton or instant layout rendering
+  // Hydration will happen as soon as methods.values is populated via the hook
 
   return (
     <DashboardLayout>

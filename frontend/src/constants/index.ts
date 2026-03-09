@@ -49,7 +49,7 @@ export const FEATURES_DATA = [
     icon: Mail,
     title: 'Smart Reminders',
     description:
-      'Automatically generate polite and effective payment reminder emails for overdue invoices with a single click.'
+      'Automatically generate polite and effective payment reminder emails for invoices with a single click.'
   },
   {
     icon: Users,

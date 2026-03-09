@@ -68,7 +68,7 @@ export const updateProfile = async (
 
     // findOneAndUpdate with upsert: true handles creation if no user exists
     const user = await User.findOneAndUpdate({}, profileData, {
-      new: true,
+      returnDocument: 'after',
       upsert: true,
       runValidators: true
     });

@@ -121,3 +121,139 @@ export const sendInvoiceEmail = async (
     next(error);
   }
 };
+export const getAllInvoices = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    // Temporary singleton user approach
+    const user = await User.findOne();
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: 'No user found.'
+      });
+      return;
+    }
+
+    // Check for overdue invoices and update them
+    const now = new Date();
+    await Invoice.updateMany(
+      {
+        userId: user._id,
+        status: 'SENT',
+        dueDate: { $lt: now.toISOString() }
+      },
+      { $set: { status: 'OVERDUE' } }
+    );
+
+    const invoices = await Invoice.find({ userId: user._id }).sort({
+      createdAt: -1
+    });
+
+    res.status(200).json({
+      success: true,
+      data: invoices
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateInvoiceStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const validStatuses = ['DRAFT', 'SENT', 'PAID', 'OVERDUE'];
+    if (!validStatuses.includes(status)) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid status'
+      });
+      return;
+    }
+
+    const invoice = await Invoice.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!invoice) {
+      res.status(404).json({
+        success: false,
+        message: 'Invoice not found'
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Invoice status updated successfully',
+      data: invoice
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateInvoice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const invoice = await Invoice.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!invoice) {
+      res.status(404).json({
+        success: false,
+        message: 'Invoice not found'
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Invoice updated successfully',
+      data: invoice
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export const deleteInvoice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const invoice = await Invoice.findByIdAndDelete(id);
+
+    if (!invoice)
+      res.status(404).json({
+        success: false,
+        message: 'Invoice not found'
+      });
+
+    res.status(200).json({
+      success: true,
+      message: 'Invoice deleted successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
