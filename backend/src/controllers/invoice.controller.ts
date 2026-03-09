@@ -182,7 +182,7 @@ export const updateInvoiceStatus = async (
     const invoice = await Invoice.findByIdAndUpdate(
       id,
       { status },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!invoice) {
@@ -213,7 +213,7 @@ export const updateInvoice = async (
     const updateData = req.body;
 
     const invoice = await Invoice.findByIdAndUpdate(id, updateData, {
-      new: true,
+      returnDocument: 'after',
       runValidators: true
     });
 

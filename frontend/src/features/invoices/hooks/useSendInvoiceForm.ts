@@ -7,6 +7,7 @@ import {
 } from '../validation/send-invoice.validation';
 import { sendInvoiceEmail } from '../api/sendInvoiceEmailApi';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UseSendInvoiceFormProps {
   invoiceId: string;
@@ -32,6 +33,7 @@ export const useSendInvoiceForm = ({
       message: `Hi ${defaultData.clientName},\n\nPlease find the attached invoice for our recent business. Let us know if you have any questions.\n\nBest regards,\n${defaultData.businessName}`
     }
   });
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: SendInvoiceForm) => {
@@ -43,6 +45,8 @@ export const useSendInvoiceForm = ({
         message: data.message
       });
       toast.success('Invoice email sent successfully!');
+      queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] });
       onClose();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to send email.');

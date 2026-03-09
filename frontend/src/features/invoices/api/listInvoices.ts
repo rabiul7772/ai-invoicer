@@ -22,7 +22,7 @@ export interface IInvoice {
     clientName: string;
     clientEmail: string;
     clientAddress: string;
-    clientPhone: string;
+    clientPhone?: string;
   };
   items: IInvoiceItem[];
   notes?: string;

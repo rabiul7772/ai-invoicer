@@ -1,6 +1,6 @@
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import { invoiceSchema, type InvoiceFormValues } from '../validation';
 import { useInvoiceTotals } from './useInvoiceTotals';
 import { useInvoiceDefaultValues } from './useInvoiceDefaultValues';
@@ -8,11 +8,12 @@ import { useInvoiceQuery } from './useInvoiceQuery';
 
 export const useInvoiceForm = (initialData?: Partial<InvoiceFormValues>) => {
   const { id } = useParams();
+  const location = useLocation();
   const { data: invoiceResult, isLoading: isFetchingInvoice } =
     useInvoiceQuery(id);
 
   const defaultValues = useInvoiceDefaultValues(
-    invoiceResult?.data || initialData
+    location.state?.aiData || invoiceResult?.data || initialData
   );
 
   const methods = useForm<InvoiceFormValues>({

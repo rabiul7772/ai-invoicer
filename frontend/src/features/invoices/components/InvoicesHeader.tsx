@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Plus, Sparkles } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { CreateWithAIModal } from './CreateWithAIModal';
 
 export const InvoicesHeader = () => {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -37,6 +38,27 @@ export const InvoicesHeader = () => {
       <CreateWithAIModal
         isOpen={isAIModalOpen}
         onClose={() => setIsAIModalOpen(false)}
+        onDataExtracted={data =>
+          navigate('/create-invoice', {
+            state: {
+              aiData: {
+                billTo: {
+                  clientName: data.clientName,
+                  clientEmail: data.email,
+                  clientAddress: data.address,
+                  clientPhone: ''
+                },
+                items: data.items.map(item => ({
+                  name: item.name,
+                  quantity: item.quantity,
+                  price: item.price,
+                  tax: 0,
+                  total: item.quantity * item.price
+                }))
+              }
+            }
+          })
+        }
       />
     </div>
   );

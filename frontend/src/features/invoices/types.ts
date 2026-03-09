@@ -20,7 +20,7 @@ export interface Invoice {
     clientName: string;
     clientEmail: string;
     clientAddress: string;
-    clientPhone: string;
+    clientPhone?: string;
   };
   items: InvoiceItem[];
   notes: string;
