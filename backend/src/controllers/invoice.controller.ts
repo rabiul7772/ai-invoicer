@@ -128,7 +128,8 @@ export const getAllInvoices = async (
 ): Promise<void> => {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 6;
+    const limit = parseInt(req.query.limit as string) || 7;
+    const search = req.query.search as string;
     const skip = (page - 1) * limit;
 
     // Temporary singleton user approach
@@ -152,7 +153,14 @@ export const getAllInvoices = async (
       { $set: { status: 'OVERDUE' } }
     );
 
-    const query = { userId: user._id };
+    const query: any = { userId: user._id };
+
+    if (search) {
+      query.$or = [
+        { 'billTo.clientName': { $regex: search, $options: 'i' } },
+        { 'billTo.clientEmail': { $regex: search, $options: 'i' } }
+      ];
+    }
 
     // Fetch total count and paginated data in parallel
     const [total, invoices] = await Promise.all([

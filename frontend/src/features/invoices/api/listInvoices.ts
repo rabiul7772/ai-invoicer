@@ -50,6 +50,7 @@ export interface ListInvoicesResponse {
 export interface ListInvoicesParams {
   page?: number;
   limit?: number;
+  search?: string;
 }
 
 export const listInvoices = async (

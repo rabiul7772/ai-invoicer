@@ -11,16 +11,21 @@ import { INVOICE_PER_PAGE } from '../../../constants';
 export const InvoicesTable = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1', 10);
+  const search = searchParams.get('search') || '';
 
   const handlePageChange = (newPage: number) => {
-    setSearchParams({ page: newPage.toString() });
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', newPage.toString());
+      return newParams;
+    });
   };
 
   const {
     data: response,
     isLoading,
     error
-  } = useInvoices(page, INVOICE_PER_PAGE);
+  } = useInvoices(page, INVOICE_PER_PAGE, search);
   const [selectedInvoice, setSelectedInvoice] = useState<IInvoice | null>(null);
 
   const invoices = response?.data;

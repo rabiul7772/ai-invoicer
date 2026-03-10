@@ -64,7 +64,7 @@ ${text}
     res.status(500).json({
       status: 'error',
       message: 'Failed to extract data from text, please try again',
-      error: error.message
+      error: 'AI_EXTRACTION_FAILED'
     });
   }
 };
