@@ -17,6 +17,19 @@ export const generateInvoiceHtml = (data: any): string => {
       })
     : '';
 
+  // Status logic
+  const status = data.status || 'DRAFT';
+  let statusLabel = 'Unpaid';
+  let badgeClasses = 'bg-gray-100 text-gray-700 border-gray-200';
+
+  if (status === 'PAID') {
+    statusLabel = 'Paid';
+    badgeClasses = 'bg-green-50 text-green-700 border-green-200';
+  } else if (status === 'OVERDUE') {
+    statusLabel = 'Overdue';
+    badgeClasses = 'bg-red-50 text-red-700 border-red-200';
+  }
+
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -57,14 +70,20 @@ export const generateInvoiceHtml = (data: any): string => {
           </div>
 
         <!-- Bill To -->
-        <div class="py-4 mt-4">
-          <h3 class="text-sm font-bold text-gray-600 uppercase tracking-wider mb-2">
-            Bill To
-          </h3>
-          <p class="text-lg font-bold text-gray-900">${data.billTo?.clientName || ''}</p>
-          <p class="text-gray-800 text-sm font-medium">${data.billTo?.clientEmail || ''}</p>
-          <p class="text-gray-800 text-sm font-medium">${data.billTo?.clientPhone || ''}</p>
-          <p class="text-gray-800 text-sm font-medium whitespace-pre-wrap">${data.billTo?.clientAddress || ''}</p>
+        <div class="py-4 mt-4 flex justify-between items-start">
+          <div>
+            <h3 class="text-sm font-bold text-gray-600 uppercase tracking-wider mb-2">
+              Bill To
+            </h3>
+            <p class="text-lg font-bold text-gray-900">${data.billTo?.clientName || ''}</p>
+            <p class="text-gray-800 text-sm font-medium">${data.billTo?.clientEmail || ''}</p>
+            <p class="text-gray-800 text-sm font-medium">${data.billTo?.clientPhone || ''}</p>
+            <p class="text-gray-800 text-sm font-medium whitespace-pre-wrap">${data.billTo?.clientAddress || ''}</p>
+          </div>
+
+          <div class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border ${badgeClasses}">
+            ${statusLabel}
+          </div>
         </div>
 
         <!-- Items Table -->

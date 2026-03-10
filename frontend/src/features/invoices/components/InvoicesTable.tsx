@@ -112,6 +112,7 @@ export const InvoicesTable = () => {
           isOpen={!!selectedInvoice}
           onClose={() => setSelectedInvoice(null)}
           invoiceId={selectedInvoice._id}
+          status={selectedInvoice.status}
           defaultData={{
             clientName: selectedInvoice.billTo.clientName,
             clientEmail: selectedInvoice.billTo.clientEmail,

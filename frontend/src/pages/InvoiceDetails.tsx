@@ -1,12 +1,12 @@
+import { ChevronLeft, Download, Loader2, Mail } from 'lucide-react';
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import { ChevronLeft, Send, Download, Loader2 } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { useInvoiceDetails } from '../features/invoices/hooks/useInvoiceDetails';
-import { SendInvoiceModal } from '../features/invoices/components/SendInvoiceModal';
-import { downloadPdf } from '../utils/downloadPdf';
-import { Spinner } from '../components/ui/Spinner';
+import { useNavigate, useParams } from 'react-router';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
+import { Button } from '../components/ui/Button';
+import { Spinner } from '../components/ui/Spinner';
+import { SendInvoiceModal } from '../features/invoices/components/SendInvoiceModal';
+import { useInvoiceDetails } from '../features/invoices/hooks/useInvoiceDetails';
+import { downloadPdf } from '../utils/downloadPdf';
 
 const InvoiceDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,14 +77,16 @@ const InvoiceDetails = () => {
             >
               Download
             </Button>
-            <Button
-              variant="neon"
-              icon={Send}
-              onClick={() => setIsSendModalOpen(true)}
-              disabled={!invoice}
-            >
-              Send Invoice
-            </Button>
+            {invoice.status !== 'PAID' && (
+              <Button
+                variant="neon"
+                icon={Mail}
+                onClick={() => setIsSendModalOpen(true)}
+                disabled={!invoice}
+              >
+                {invoice.status === 'DRAFT' ? 'Send Invoice' : 'Send reminder'}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -117,6 +119,7 @@ const InvoiceDetails = () => {
         isOpen={isSendModalOpen}
         onClose={() => setIsSendModalOpen(false)}
         invoiceId={id || ''}
+        status={invoice.status}
         defaultData={{
           clientName: invoice.billTo.clientName,
           clientEmail: invoice.billTo.clientEmail,
