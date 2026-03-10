@@ -127,6 +127,10 @@ export const getAllInvoices = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 6;
+    const skip = (page - 1) * limit;
+
     // Temporary singleton user approach
     const user = await User.findOne();
     if (!user) {
@@ -148,13 +152,23 @@ export const getAllInvoices = async (
       { $set: { status: 'OVERDUE' } }
     );
 
-    const invoices = await Invoice.find({ userId: user._id }).sort({
-      createdAt: -1
-    });
+    const query = { userId: user._id };
+
+    // Fetch total count and paginated data in parallel
+    const [total, invoices] = await Promise.all([
+      Invoice.countDocuments(query),
+      Invoice.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit)
+    ]);
 
     res.status(200).json({
       success: true,
-      data: invoices
+      data: invoices,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
     });
   } catch (error) {
     next(error);

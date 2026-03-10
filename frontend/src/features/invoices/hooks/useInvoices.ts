@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { listInvoices } from '../api/listInvoices';
 
-export const useInvoices = () => {
+export const useInvoices = (page: number = 1, limit: number = 6) => {
   return useQuery({
-    queryKey: ['invoices'],
-    queryFn: listInvoices
+    queryKey: ['invoices', { page, limit }],
+    queryFn: () => listInvoices({ page, limit }),
+    placeholderData: keepPreviousData
   });
 };

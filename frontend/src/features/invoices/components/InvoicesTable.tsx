@@ -1,13 +1,30 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useInvoices } from '../hooks/useInvoices';
 import { InvoiceRow } from './InvoiceRow';
 import { Loader2 } from 'lucide-react';
 import { SendInvoiceModal } from './SendInvoiceModal';
+import { InvoicesPagination } from './InvoicesPagination';
 import type { IInvoice } from '../api/listInvoices';
+import { INVOICE_PER_PAGE } from '../../../constants';
 
 export const InvoicesTable = () => {
-  const { data: invoices, isLoading, error } = useInvoices();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') || '1', 10);
+
+  const handlePageChange = (newPage: number) => {
+    setSearchParams({ page: newPage.toString() });
+  };
+
+  const {
+    data: response,
+    isLoading,
+    error
+  } = useInvoices(page, INVOICE_PER_PAGE);
   const [selectedInvoice, setSelectedInvoice] = useState<IInvoice | null>(null);
+
+  const invoices = response?.data;
+  const total = response?.pagination?.total || 0;
 
   if (isLoading) {
     return (
@@ -74,6 +91,15 @@ export const InvoicesTable = () => {
           </tbody>
         </table>
       </div>
+
+      {total > INVOICE_PER_PAGE && (
+        <InvoicesPagination
+          currentPage={page}
+          totalCount={total}
+          pageSize={INVOICE_PER_PAGE}
+          onPageChange={handlePageChange}
+        />
+      )}
 
       {selectedInvoice && (
         <SendInvoiceModal
