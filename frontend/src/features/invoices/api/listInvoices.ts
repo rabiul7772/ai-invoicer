@@ -35,7 +35,28 @@ export interface IInvoice {
   updatedAt: string;
 }
 
-export const listInvoices = async (): Promise<IInvoice[]> => {
-  const response = await api.get('/invoices');
-  return response.data.data;
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface ListInvoicesResponse {
+  data: IInvoice[];
+  pagination: PaginationMeta;
+}
+
+export interface ListInvoicesParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: string;
+}
+
+export const listInvoices = async (
+  params?: ListInvoicesParams
+): Promise<ListInvoicesResponse> => {
+  const response = await api.get('/invoices', { params });
+  return response.data;
 };

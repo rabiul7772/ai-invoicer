@@ -12,7 +12,7 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-lg font-black uppercase tracking-widest transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100',
+  'inline-flex items-center justify-center gap-2 rounded-lg font-black uppercase tracking-widest transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100',
   {
     variants: {
       variant: {

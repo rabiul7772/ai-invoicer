@@ -1,13 +1,36 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useInvoices } from '../hooks/useInvoices';
 import { InvoiceRow } from './InvoiceRow';
 import { Loader2 } from 'lucide-react';
 import { SendInvoiceModal } from './SendInvoiceModal';
+import { InvoicesPagination } from './InvoicesPagination';
 import type { IInvoice } from '../api/listInvoices';
+import { INVOICE_PER_PAGE } from '../../../constants';
 
 export const InvoicesTable = () => {
-  const { data: invoices, isLoading, error } = useInvoices();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const search = searchParams.get('search') || '';
+  const status = searchParams.get('status') || '';
+
+  const handlePageChange = (newPage: number) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set('page', newPage.toString());
+      return newParams;
+    });
+  };
+
+  const {
+    data: response,
+    isLoading,
+    error
+  } = useInvoices(page, INVOICE_PER_PAGE, search, status);
   const [selectedInvoice, setSelectedInvoice] = useState<IInvoice | null>(null);
+
+  const invoices = response?.data;
+  const total = response?.pagination?.total || 0;
 
   if (isLoading) {
     return (
@@ -75,11 +98,21 @@ export const InvoicesTable = () => {
         </table>
       </div>
 
+      {total > INVOICE_PER_PAGE && (
+        <InvoicesPagination
+          currentPage={page}
+          totalCount={total}
+          pageSize={INVOICE_PER_PAGE}
+          onPageChange={handlePageChange}
+        />
+      )}
+
       {selectedInvoice && (
         <SendInvoiceModal
           isOpen={!!selectedInvoice}
           onClose={() => setSelectedInvoice(null)}
           invoiceId={selectedInvoice._id}
+          status={selectedInvoice.status}
           defaultData={{
             clientName: selectedInvoice.billTo.clientName,
             clientEmail: selectedInvoice.billTo.clientEmail,

@@ -121,12 +121,19 @@ export const sendInvoiceEmail = async (
     next(error);
   }
 };
+
 export const getAllInvoices = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 7;
+    const search = req.query.search as string;
+    const status = req.query.status as string;
+    const skip = (page - 1) * limit;
+
     // Temporary singleton user approach
     const user = await User.findOne();
     if (!user) {
@@ -148,13 +155,37 @@ export const getAllInvoices = async (
       { $set: { status: 'OVERDUE' } }
     );
 
-    const invoices = await Invoice.find({ userId: user._id }).sort({
-      createdAt: -1
-    });
+    const query: Record<string, unknown> = { userId: user._id };
+
+    if (status) {
+      const upperStatus = status.toUpperCase();
+      if (['DRAFT', 'SENT', 'PAID', 'OVERDUE'].includes(upperStatus)) {
+        query.status = upperStatus;
+      }
+    }
+
+    if (search) {
+      query.$or = [
+        { 'billTo.clientName': { $regex: search, $options: 'i' } },
+        { 'billTo.clientEmail': { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    // Fetch total count and paginated data in parallel
+    const [total, invoices] = await Promise.all([
+      Invoice.countDocuments(query),
+      Invoice.find(query).lean().sort({ createdAt: -1 }).skip(skip).limit(limit)
+    ]);
 
     res.status(200).json({
       success: true,
-      data: invoices
+      data: invoices,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit)
+      }
     });
   } catch (error) {
     next(error);

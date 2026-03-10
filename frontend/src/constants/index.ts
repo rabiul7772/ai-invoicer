@@ -3,6 +3,8 @@ export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
   .VITE_CLOUDINARY_UPLOAD_PRESET;
 
+export const INVOICE_PER_PAGE = 7;
+
 import {
   BarChart3,
   Github,
@@ -223,4 +225,12 @@ export const billToFields = [
     label: 'Client Phone',
     placeholder: '+1 (555) 123-4567'
   }
+];
+
+export const STATUS_OPTIONS = [
+  { value: '', label: 'All Status' },
+  { value: 'draft', label: 'Draft' },
+  { value: 'sent', label: 'Sent' },
+  { value: 'paid', label: 'Paid' },
+  { value: 'overdue', label: 'Overdue' }
 ];

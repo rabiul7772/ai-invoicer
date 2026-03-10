@@ -77,7 +77,7 @@ export const CreateWithAIModal = ({
                 value={text}
                 onChange={e => setText(e.target.value)}
                 placeholder="Ex: Bill to John Doe, 123 Main St. Items: Logo Design $500 x 1, Website Dev $1500 x 1..."
-                className="w-full h-64 bg-(--color-bg-accent) border border-(--color-border) rounded-xl p-4 text-(--color-text-bright) placeholder:text-(--color-text-muted) focus:ring-2 focus:ring-(--color-primary) focus:border-transparent outline-none transition-all resize-none custom-scrollbar"
+                className="w-full h-64 bg-(--color-bg-accent) border border-(--color-border) rounded-xl p-4 mt-2 text-(--color-text-bright) placeholder:text-(--color-text-muted) focus:ring-2 focus:ring-(--color-primary) focus:border-transparent outline-none transition-all resize-none custom-scrollbar"
                 disabled={isExtracting}
               />
             </div>

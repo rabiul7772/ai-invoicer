@@ -1,13 +1,14 @@
-import { X, Send } from 'lucide-react';
+import { Mail, X } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
+import { ModalPortal } from '../../../components/ui/ModalPortal';
 import { useSendInvoiceForm } from '../hooks/useSendInvoiceForm';
 import { SendInvoiceInput } from './SendInvoiceInput';
-import { ModalPortal } from '../../../components/ui/ModalPortal';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   invoiceId: string;
+  status: string;
   defaultData: {
     clientName: string;
     clientEmail: string;
@@ -19,11 +20,13 @@ export const SendInvoiceModal = ({
   isOpen,
   onClose,
   invoiceId,
+  status,
   defaultData
 }: Props) => {
   const { register, onSubmit, errors, isLoading } = useSendInvoiceForm({
     invoiceId,
     onClose,
+    status,
     defaultData
   });
 
@@ -39,9 +42,9 @@ export const SendInvoiceModal = ({
           className="relative w-full max-w-lg bg-(--color-bg-card) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           onClick={e => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between p-6 border-b border-(--color-border) shrink-0">
+          <div className="flex items-center justify-between p-2 px-4 border-b border-(--color-border) shrink-0">
             <h2 className="text-xl font-bold text-(--color-text-bright)">
-              Send Invoice
+              {status === 'DRAFT' ? 'Send Invoice' : 'Send Reminder'}
             </h2>
             <button
               onClick={onClose}
@@ -53,7 +56,7 @@ export const SendInvoiceModal = ({
 
           <form
             onSubmit={onSubmit}
-            className="p-6 space-y-4 overflow-y-auto custom-scrollbar"
+            className="p-2 px-4 space-y-4 overflow-y-auto custom-scrollbar"
           >
             <SendInvoiceInput
               label="Recipient Name"
@@ -93,7 +96,7 @@ export const SendInvoiceModal = ({
                 type="submit"
                 isLoading={isLoading}
                 disabled={isLoading}
-                icon={Send}
+                icon={Mail}
                 className="flex-1"
               >
                 {isLoading ? 'Sending...' : 'Send Email'}

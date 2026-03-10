@@ -1,38 +1,68 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { INVOICE_PER_PAGE } from '../../../constants';
 
-export const InvoicesPagination = () => {
+interface PaginationProps {
+  currentPage: number;
+  pageSize?: number;
+  totalCount: number;
+  onPageChange: (page: number) => void;
+}
+
+export const InvoicesPagination = ({
+  currentPage,
+  pageSize = INVOICE_PER_PAGE,
+  totalCount,
+  onPageChange
+}: PaginationProps) => {
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const startResult = (currentPage - 1) * pageSize + 1;
+  const endResult = Math.min(currentPage * pageSize, totalCount);
+
   return (
-    <div className="flex items-center justify-between mt-6 px-2">
-      <p className="text-sm text-(--color-text-dim)">
+    <div className="flex items-center justify-between p-4 border-t border-[rgba(255,255,255,0.05)] text-sm">
+      <button
+        onClick={handlePrevious}
+        disabled={currentPage === 1}
+        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <span className="text-lg leading-none">&larr;</span> Previous
+      </button>
+
+      <span className="text-(--color-text-dim) font-medium">
         Showing{' '}
-        <span className="text-(--color-text-bright) font-medium">1</span> to{' '}
-        <span className="text-(--color-text-bright) font-medium">4</span> of{' '}
-        <span className="text-(--color-text-bright) font-medium">24</span>{' '}
-        invoices
-      </p>
+        <span className="font-bold text-(--color-text-bright)">
+          {startResult}
+        </span>{' '}
+        to{' '}
+        <span className="font-bold text-(--color-text-bright)">
+          {endResult}
+        </span>{' '}
+        of{' '}
+        <span className="font-bold text-(--color-text-bright)">
+          {totalCount}
+        </span>{' '}
+        results
+      </span>
 
-      <div className="flex items-center gap-2">
-        <button className="p-2 text-(--color-text-dim) hover:text-(--color-primary) transition-colors border border-transparent hover:border-[rgba(0,255,136,0.1)] rounded-lg hover:bg-[rgba(255,255,255,0.02)]">
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-
-        <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-(--color-primary) text-[#0a1d14] font-black text-sm">
-          1
-        </button>
-
-        {[2, 3].map(page => (
-          <button
-            key={page}
-            className="w-10 h-10 flex items-center justify-center rounded-lg text-(--color-text-dim) hover:text-(--color-text-bright) hover:bg-[rgba(255,255,255,0.03)] border border-transparent hover:border-[rgba(255,255,255,0.05)] transition-all text-sm font-bold"
-          >
-            {page}
-          </button>
-        ))}
-
-        <button className="p-2 text-(--color-text-dim) hover:text-(--color-primary) transition-colors border border-transparent hover:border-[rgba(0,255,136,0.1)] rounded-lg hover:bg-[rgba(255,255,255,0.02)]">
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
+      <button
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        Next <span className="text-lg leading-none">&rarr;</span>
+      </button>
     </div>
   );
 };
