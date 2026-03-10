@@ -121,6 +121,7 @@ export const sendInvoiceEmail = async (
     next(error);
   }
 };
+
 export const getAllInvoices = async (
   req: Request,
   res: Response,
@@ -130,6 +131,7 @@ export const getAllInvoices = async (
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 7;
     const search = req.query.search as string;
+    const status = req.query.status as string;
     const skip = (page - 1) * limit;
 
     // Temporary singleton user approach
@@ -153,7 +155,14 @@ export const getAllInvoices = async (
       { $set: { status: 'OVERDUE' } }
     );
 
-    const query: any = { userId: user._id };
+    const query: Record<string, unknown> = { userId: user._id };
+
+    if (status) {
+      const upperStatus = status.toUpperCase();
+      if (['DRAFT', 'SENT', 'PAID', 'OVERDUE'].includes(upperStatus)) {
+        query.status = upperStatus;
+      }
+    }
 
     if (search) {
       query.$or = [
@@ -165,7 +174,7 @@ export const getAllInvoices = async (
     // Fetch total count and paginated data in parallel
     const [total, invoices] = await Promise.all([
       Invoice.countDocuments(query),
-      Invoice.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit)
+      Invoice.find(query).lean().sort({ createdAt: -1 }).skip(skip).limit(limit)
     ]);
 
     res.status(200).json({

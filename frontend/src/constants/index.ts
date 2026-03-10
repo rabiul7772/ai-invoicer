@@ -226,3 +226,11 @@ export const billToFields = [
     placeholder: '+1 (555) 123-4567'
   }
 ];
+
+export const STATUS_OPTIONS = [
+  { value: '', label: 'All Status' },
+  { value: 'draft', label: 'Draft' },
+  { value: 'sent', label: 'Sent' },
+  { value: 'paid', label: 'Paid' },
+  { value: 'overdue', label: 'Overdue' }
+];

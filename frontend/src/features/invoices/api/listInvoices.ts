@@ -51,6 +51,7 @@ export interface ListInvoicesParams {
   page?: number;
   limit?: number;
   search?: string;
+  status?: string;
 }
 
 export const listInvoices = async (

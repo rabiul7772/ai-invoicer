@@ -31,7 +31,7 @@ export const generateInvoiceHtml = (data: any): string => {
         <div class="grow">
           <!-- Header -->
           <div class="flex justify-between items-start border-b border-gray-200 pb-8">
-            <div class="flex items-center gap-6">
+            <div class="flex items-start gap-6">
               ${
                 data.billFrom?.companyLogoUrl
                   ? `<div class="w-24 h-24 shrink-0 bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center border border-gray-100 shadow-sm"><img src="${data.billFrom.companyLogoUrl}" alt="Company Logo" class="w-full h-full object-contain p-2" /></div>`

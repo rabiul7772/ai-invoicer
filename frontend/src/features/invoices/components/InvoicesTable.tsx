@@ -12,6 +12,7 @@ export const InvoicesTable = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '1', 10);
   const search = searchParams.get('search') || '';
+  const status = searchParams.get('status') || '';
 
   const handlePageChange = (newPage: number) => {
     setSearchParams(prev => {
@@ -25,7 +26,7 @@ export const InvoicesTable = () => {
     data: response,
     isLoading,
     error
-  } = useInvoices(page, INVOICE_PER_PAGE, search);
+  } = useInvoices(page, INVOICE_PER_PAGE, search, status);
   const [selectedInvoice, setSelectedInvoice] = useState<IInvoice | null>(null);
 
   const invoices = response?.data;
