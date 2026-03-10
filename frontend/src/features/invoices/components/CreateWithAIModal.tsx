@@ -1,14 +1,37 @@
+import { useState } from 'react';
 import { X, Sparkles, Wand2 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 import { ModalPortal } from '../../../components/ui/ModalPortal';
+import { useExtractInvoiceData } from '../hooks/useExtractInvoiceData';
+import type { ExtractedInvoiceData } from '../api/extractInvoiceData';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  onDataExtracted: (data: ExtractedInvoiceData) => void;
 }
 
-export const CreateWithAIModal = ({ isOpen, onClose }: Props) => {
+export const CreateWithAIModal = ({
+  isOpen,
+  onClose,
+  onDataExtracted
+}: Props) => {
+  const [text, setText] = useState('');
+  const { extractData, isExtracting } = useExtractInvoiceData();
+
   if (!isOpen) return null;
+
+  const handleGenerate = () => {
+    if (!text.trim()) return;
+
+    extractData(text, {
+      onSuccess: data => {
+        onDataExtracted(data);
+        onClose();
+        setText('');
+      }
+    });
+  };
 
   return (
     <ModalPortal>
@@ -47,12 +70,15 @@ export const CreateWithAIModal = ({ isOpen, onClose }: Props) => {
             </p>
 
             <div className="space-y-3">
-              <label className="text-sm font-bold text-(--color-text-bright) uppercase tracking-wider">
+              <label className="text-sm font-semibold tracking-wider">
                 Paste Invoice Text Here
               </label>
               <textarea
+                value={text}
+                onChange={e => setText(e.target.value)}
                 placeholder="Ex: Bill to John Doe, 123 Main St. Items: Logo Design $500 x 1, Website Dev $1500 x 1..."
                 className="w-full h-64 bg-(--color-bg-accent) border border-(--color-border) rounded-xl p-4 text-(--color-text-bright) placeholder:text-(--color-text-muted) focus:ring-2 focus:ring-(--color-primary) focus:border-transparent outline-none transition-all resize-none custom-scrollbar"
+                disabled={isExtracting}
               />
             </div>
 
@@ -62,6 +88,7 @@ export const CreateWithAIModal = ({ isOpen, onClose }: Props) => {
                 type="button"
                 onClick={onClose}
                 className="flex-1 border border-(--color-border)"
+                disabled={isExtracting}
               >
                 Cancel
               </Button>
@@ -69,9 +96,11 @@ export const CreateWithAIModal = ({ isOpen, onClose }: Props) => {
                 variant="neon"
                 icon={Wand2}
                 className="flex-1"
-                onClick={() => {}}
+                onClick={handleGenerate}
+                isLoading={isExtracting}
+                disabled={isExtracting || !text.trim()}
               >
-                Generate Invoice
+                {isExtracting ? 'Extracting...' : 'Generate Invoice'}
               </Button>
             </div>
           </div>

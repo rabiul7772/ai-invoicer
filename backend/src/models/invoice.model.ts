@@ -21,7 +21,7 @@ export interface IInvoice extends Document {
     clientName: string;
     clientEmail: string;
     clientAddress: string;
-    clientPhone: string;
+    clientPhone?: string;
   };
   items: IInvoiceItem[];
   notes?: string;
@@ -54,7 +54,7 @@ const invoiceSchema = new Schema<IInvoice>(
       clientName: { type: String, required: true },
       clientEmail: { type: String, required: true },
       clientAddress: { type: String, required: true },
-      clientPhone: { type: String, required: true }
+      clientPhone: { type: String }
     },
     items: {
       type: [invoiceItemSchema],

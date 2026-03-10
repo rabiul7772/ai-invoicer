@@ -51,7 +51,7 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
             <span className="text-sm font-medium">Subtotal:</span>
             <span className="text-lg font-bold text-(--color-text-white)">
               $
-              {totals.subtotal.toLocaleString(undefined, {
+              {totals?.subtotal?.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}
             </span>
@@ -61,7 +61,7 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
             <span className="text-sm font-medium">Tax:</span>
             <span className="text-lg font-bold text-(--color-text-white)">
               $
-              {totals.taxTotal.toLocaleString(undefined, {
+              {totals?.taxTotal?.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}
             </span>
@@ -73,7 +73,7 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
             </span>
             <span className="text-5xl font-black text-[#00ff88] drop-shadow-[0_0_20px_rgba(0,255,136,0.3)] tracking-tighter">
               $
-              {totals.totalAmount.toLocaleString(undefined, {
+              {totals?.totalAmount?.toLocaleString(undefined, {
                 minimumFractionDigits: 2
               })}
             </span>

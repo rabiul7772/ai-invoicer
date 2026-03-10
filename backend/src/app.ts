@@ -7,6 +7,7 @@ import errorMiddleware from './middlewares/error.middleware.js';
 import arcjetMiddleware from './middlewares/arcjet.middleware.js';
 import userRouter from './routes/user.routes.js';
 import invoiceRouter from './routes/invoice.routes.js';
+import aiRouter from './routes/ai.routes.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -30,8 +31,8 @@ app.use(arcjetMiddleware);
 
 // Routers
 app.use('/api/v1/user', userRouter);
-// app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/invoices', invoiceRouter);
+app.use('/api/v1/ai', aiRouter);
 
 app.use(errorMiddleware);
 
