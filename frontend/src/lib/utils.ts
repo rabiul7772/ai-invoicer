@@ -16,12 +16,6 @@ export const formatCurrency = (amount: number) => {
   }).format(amount);
 };
 
-export const calculateTrend = (current: number, previous: number) => {
-  if (previous === 0) return current > 0 ? '100%' : '0%';
-  const diff = ((current - previous) / previous) * 100;
-  return `${diff > 0 ? '+' : ''}${diff.toFixed(1)}%`;
-};
-
 export const getInitials = (name: string) => {
   return name
     .split(' ')

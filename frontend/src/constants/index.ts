@@ -7,22 +7,18 @@ export const INVOICE_PER_PAGE = 7;
 
 import {
   BarChart3,
+  FileText,
   Github,
+  LayoutDashboard,
   LinkedinIcon,
   Mail,
   MessageCircle,
+  PlusCircle,
   Sparkles,
   Twitter,
-  Users,
-  FileText,
-  LayoutDashboard,
-  PlusCircle,
   User,
-  CheckCircle2,
-  Clock,
-  AlertCircle
+  Users
 } from 'lucide-react';
-import { calculateTrend, formatCurrency } from '../lib/utils';
 
 export const NAV_LINKS = [
   { label: 'Features', href: '#features' },
