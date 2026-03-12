@@ -88,6 +88,14 @@
   h6 {
     @apply font-bold tracking-tight text-(--color-text-white);
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section {
+    scroll-margin-top: 80px; /* Offset for fixed navbar */
+  }
 }
 
 @layer components {

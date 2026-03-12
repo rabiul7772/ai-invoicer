@@ -17,8 +17,12 @@ import {
   FileText,
   LayoutDashboard,
   PlusCircle,
-  User
+  User,
+  CheckCircle2,
+  Clock,
+  AlertCircle
 } from 'lucide-react';
+import { calculateTrend, formatCurrency } from '../lib/utils';
 
 export const NAV_LINKS = [
   { label: 'Features', href: '#features' },
@@ -234,3 +238,10 @@ export const STATUS_OPTIONS = [
   { value: 'paid', label: 'Paid' },
   { value: 'overdue', label: 'Overdue' }
 ];
+
+export const STATUS_COLORS: Record<string, string> = {
+  PAID: '#00ff88',
+  SENT: '#fbbf24',
+  OVERDUE: '#ff5555',
+  DRAFT: '#94a3b8'
+};

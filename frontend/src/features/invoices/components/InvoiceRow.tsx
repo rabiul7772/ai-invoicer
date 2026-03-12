@@ -49,7 +49,7 @@ export const InvoiceRow = (props: InvoiceRowProps) => {
 
   return (
     <tr
-      onClick={() => navigate(`/invoice/${_id}`)}
+      onClick={() => navigate(`/invoices/${_id}`)}
       className="group border-b border-[rgba(255,255,255,0.03)] last:border-0 hover:bg-[rgba(255,255,255,0.01)] transition-colors cursor-pointer"
     >
       <td className="py-2.5 pl-6">

@@ -21,25 +21,27 @@ const FooterColumn = ({
 }: {
   title: string;
   links: { label: string; href: string }[];
-}) => (
-  <div>
-    <h4 className="text-(--color-primary) text-xs font-black uppercase tracking-widest mb-6">
-      {title}
-    </h4>
-    <ul className="space-y-4">
-      {links.map((link, i) => (
-        <li key={i}>
-          <a
-            href={link.href}
-            className="text-(--color-text-dim) hover:text-(--color-primary) text-sm transition-colors"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+}) => {
+  return (
+    <div>
+      <h4 className="text-(--color-primary) text-xs font-black uppercase tracking-widest mb-6">
+        {title}
+      </h4>
+      <ul className="space-y-4">
+        {links.map((link, i) => (
+          <li key={i}>
+            <a
+              href={link.href}
+              className="text-(--color-text-dim) hover:text-(--color-primary) text-sm transition-colors"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export const Footer = () => {
   return (
