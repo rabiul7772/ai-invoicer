@@ -77,4 +77,8 @@ const invoiceSchema = new Schema<IInvoice>(
   { timestamps: true }
 );
 
+// Indexes for performance
+invoiceSchema.index({ userId: 1, createdAt: -1 });
+invoiceSchema.index({ userId: 1, status: 1 });
+
 export const Invoice = model<IInvoice>('Invoice', invoiceSchema);

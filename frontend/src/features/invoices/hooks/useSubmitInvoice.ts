@@ -28,7 +28,7 @@ export const useSubmitInvoice = (
             `Invoice ${isEditing ? 'updated' : 'created'} successfully!`
         );
         methods.reset();
-        navigate(`/invoice/${response.data._id}`);
+        navigate(`/invoices/${response.data._id}`);
       } else {
         toast.error(
           response.message ||

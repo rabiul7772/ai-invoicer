@@ -7,14 +7,16 @@ import { buttonSpring } from '../../animations/variants';
 interface NavLinkProps {
   href: string;
   children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-const NavLink = ({ href, children }: NavLinkProps) => {
+const NavLink = ({ href, children, onClick }: NavLinkProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.a
       href={href}
+      onClick={onClick}
       className="relative text-(--color-text-dim) hover:text-(--color-primary) font-medium py-1 transition-colors duration-200"
       whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.2 }}
@@ -34,7 +36,6 @@ const NavLink = ({ href, children }: NavLinkProps) => {
     </motion.a>
   );
 };
-
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +48,13 @@ export const Navbar = () => {
     >
       <div className="container-custom py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2 group cursor-pointer">
+        <div
+          onClick={() => {
+            window.scrollTo({ top: 0 });
+            setIsOpen(false);
+          }}
+          className="flex items-center gap-2 group cursor-pointer"
+        >
           <div className="w-8 h-8 bg-linear-to-br from-(--color-primary) to-(--color-primary-hover) rounded-lg flex items-center justify-center shadow-(--shadow-neon) group-hover:scale-110 transition-transform">
             <FileText className="w-4 h-4 text-(--color-bg-deep)" />
           </div>
@@ -106,7 +113,11 @@ export const Navbar = () => {
           >
             <div className="p-6 flex flex-col gap-6">
               {NAV_LINKS.map(link => (
-                <NavLink key={link.href} href={link.href}>
+                <NavLink
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                >
                   {link.label}
                 </NavLink>
               ))}

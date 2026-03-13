@@ -1,21 +1,23 @@
 import { LogOut, FileText } from 'lucide-react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { navItems } from '../../constants';
 
 export const Sidebar = () => {
   return (
     <aside className="w-64 border-r border-(--color-border) bg-(--color-bg-deep) flex flex-col h-screen sticky top-0">
       {/* Brand Header */}
-      <div className="p-6 border-b border-(--color-border)">
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <div className="w-8 h-8 bg-linear-to-br from-(--color-primary) to-(--color-primary-hover) rounded-lg flex items-center justify-center shadow-(--shadow-neon) group-hover:scale-110 transition-transform">
-            <FileText className="w-4 h-4 text-(--color-bg-deep)" />
+      <Link to="/">
+        <div className="p-6 border-b border-(--color-border)">
+          <div className="flex items-center gap-2 group cursor-pointer">
+            <div className="w-8 h-8 bg-linear-to-br from-(--color-primary) to-(--color-primary-hover) rounded-lg flex items-center justify-center shadow-(--shadow-neon) group-hover:scale-110 transition-transform">
+              <FileText className="w-4 h-4 text-(--color-bg-deep)" />
+            </div>
+            <span className="text-xl font-black tracking-tighter text-(--color-text-white)">
+              AI Invoicer
+            </span>
           </div>
-          <span className="text-xl font-black tracking-tighter text-(--color-text-white)">
-            AI Invoicer
-          </span>
         </div>
-      </div>
+      </Link>
 
       {/* Navigation Links */}
       <nav className="flex-1 p-4 space-y-1">

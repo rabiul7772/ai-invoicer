@@ -7,17 +7,17 @@ export const INVOICE_PER_PAGE = 7;
 
 import {
   BarChart3,
+  FileText,
   Github,
+  LayoutDashboard,
   LinkedinIcon,
   Mail,
   MessageCircle,
+  PlusCircle,
   Sparkles,
   Twitter,
-  Users,
-  FileText,
-  LayoutDashboard,
-  PlusCircle,
-  User
+  User,
+  Users
 } from 'lucide-react';
 
 export const NAV_LINKS = [
@@ -234,3 +234,10 @@ export const STATUS_OPTIONS = [
   { value: 'paid', label: 'Paid' },
   { value: 'overdue', label: 'Overdue' }
 ];
+
+export const STATUS_COLORS: Record<string, string> = {
+  PAID: '#00ff88',
+  SENT: '#fbbf24',
+  OVERDUE: '#ff5555',
+  DRAFT: '#94a3b8'
+};

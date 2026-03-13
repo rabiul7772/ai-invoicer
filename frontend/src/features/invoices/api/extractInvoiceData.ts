@@ -10,6 +10,7 @@ export interface ExtractedInvoiceData {
   clientName: string;
   email: string;
   address: string;
+  phone?: string;
   items: ExtractedInvoiceItem[];
 }
 

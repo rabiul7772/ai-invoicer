@@ -68,7 +68,7 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
               clientName: data.clientName,
               clientEmail: data.email,
               clientAddress: data.address,
-              clientPhone: ''
+              clientPhone: data.phone || ''
             },
             items: data.items.map(item => ({
               name: item.name,

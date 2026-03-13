@@ -12,5 +12,6 @@ export const {
   SMTP_PORT,
   SMTP_USER,
   SMTP_PASS,
-  GEMINI_API_KEY
+  GEMINI_API_KEY,
+  GEMINI_MODEL
 } = process.env;
