@@ -2,11 +2,13 @@ import type { Request, Response } from 'express';
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_API_KEY, GEMINI_MODEL } from '../config/env.js';
 
-if (!GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY is not set in environment variables');
+if (!GEMINI_API_KEY || !GEMINI_MODEL) {
+  throw new Error(
+    'GEMINI_API_KEY or GEMINI_MODEL is not set in environment variables'
+  );
 }
 
-const modelName = GEMINI_MODEL as string;
+const modelName = GEMINI_MODEL;
 
 const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
