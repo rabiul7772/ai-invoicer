@@ -138,9 +138,8 @@ export const FAQ_DATA = [
       "Absolutely. We use industry-standard encryption and security protocols to ensure your data and your clients' information are protected at all times."
   },
   {
-    question: 'Can I export my data?',
-    answer:
-      'Yes, you can export your invoices, client data, and reports in multiple formats including PDF, CSV, and JSON.'
+    question: 'Can I export my invoices?',
+    answer: 'Yes, you can export your invoices in pdf format.'
   },
   {
     question: 'Is there a free trial?',
