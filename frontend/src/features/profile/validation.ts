@@ -6,8 +6,8 @@ export const profileSchema = z.object({
   businessName: z.string().min(1, 'Business name is required'),
   phoneNumber: z.string().min(11, 'Phone number must be at least 11 digits'),
   address: z.string().min(1, 'Address is required'),
-  companyLogoUrl: z.url({ error: 'Invalid company logo URL' }),
-  avatarUrl: z.url({ error: 'Invalid avatar URL' })
+  companyLogoUrl: z.string().optional(),
+  avatarUrl: z.string().optional()
 });
 
 export type ProfileFormValues = z.infer<typeof profileSchema>;

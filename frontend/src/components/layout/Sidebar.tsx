@@ -1,8 +1,11 @@
 import { LogOut, FileText } from 'lucide-react';
 import { Link, NavLink } from 'react-router';
 import { navItems } from '../../constants';
+import { useLogout } from '../../features/auth/hooks/useAuth';
 
 export const Sidebar = () => {
+  const { mutate: logout, isPending } = useLogout();
+
   return (
     <aside className="w-64 border-r border-(--color-border) bg-(--color-bg-deep) flex flex-col h-screen sticky top-0">
       {/* Brand Header */}
@@ -55,10 +58,14 @@ export const Sidebar = () => {
         </div>
 
         {/* Logout */}
-        <button className="flex items-center gap-3 px-4 py-3 w-full text-left text-sm font-medium text-(--color-text-dim) hover:bg-red-500/10 rounded-lg transition-colors">
+        <button
+          onClick={() => logout?.()}
+          className="flex items-center gap-3 px-4 py-3 w-full text-left text-sm font-medium text-(--color-text-dim) hover:bg-red-500/10 rounded-lg transition-colors"
+          disabled={isPending}
+        >
           <div className="text-red-400 flex items-center gap-2">
             <LogOut className="w-5 h-5" />
-            Logout
+            {isPending ? 'Logging out...' : 'Logout'}
           </div>
         </button>
       </div>

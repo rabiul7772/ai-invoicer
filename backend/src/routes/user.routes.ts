@@ -4,8 +4,12 @@ import {
   updateProfile,
   createProfile
 } from '../controllers/user.controller.js';
+import { protect } from '../middlewares/auth.middleware.js';
 
 const userRouter = Router();
+
+// Secure all routes
+userRouter.use(protect);
 
 // GET /api/v1/user/profile
 userRouter.get('/profile', getProfile);

@@ -14,7 +14,7 @@ export const ProfileHeader = ({
 }: ProfileHeaderProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const displayUrl = previewUrl ?? avatarUrl ?? null;
+  const displayUrl = previewUrl || avatarUrl || null;
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

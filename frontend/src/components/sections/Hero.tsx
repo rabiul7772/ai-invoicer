@@ -5,11 +5,21 @@ import {
   staggerContainer,
   buttonSpring
 } from '../../animations/variants';
+import { ScrollIndicator } from '../ui/ScrollIndicator';
+import { useNavigate } from 'react-router';
+import { useUser } from '../../features/auth/hooks/useAuth';
 
 export const Hero = () => {
+  const navigate = useNavigate();
+  const { data: userResponse } = useUser();
+  const isLoggedIn = !!userResponse?.data?.user;
+
+  const handleGetStarted = () => {
+    navigate(isLoggedIn ? '/invoices' : '/login');
+  };
+
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-      {/* Background Decorative Glow */}
+    <section className="relative pt-32 pb-10 md:pt-48 md:pb-12 overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-(--color-primary-muted) blur-[120px] rounded-full -z-10 opacity-30" />
 
       <motion.div
@@ -18,7 +28,6 @@ export const Hero = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Badge */}
         <motion.div
           variants={fadeUp}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-(--color-bg-accent) border border-(--color-border) mb-8"
@@ -29,7 +38,6 @@ export const Hero = () => {
           </span>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
           variants={fadeUp}
           className="text-5xl md:text-7xl font-black mb-6 leading-[1.1]"
@@ -38,7 +46,6 @@ export const Hero = () => {
           <span className="gradient-text">Generate in seconds.</span>
         </motion.h1>
 
-        {/* Subtitle */}
         <motion.p
           variants={fadeUp}
           className="max-w-2xl mx-auto text-lg md:text-xl text-(--color-text-dim) mb-10"
@@ -47,12 +54,12 @@ export const Hero = () => {
           generator automates, organizes, and simplifies your billing process.
         </motion.p>
 
-        {/* CTAs */}
         <motion.div
           variants={fadeUp}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.button
+            onClick={handleGetStarted}
             className="btn-neon-primary w-full sm:w-auto text-lg group"
             whileHover="hover"
             whileTap="tap"
@@ -71,6 +78,8 @@ export const Hero = () => {
             <Play className="w-4 h-4" />
           </motion.button>
         </motion.div>
+
+        <ScrollIndicator />
       </motion.div>
     </section>
   );

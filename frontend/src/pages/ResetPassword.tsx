@@ -1,13 +1,13 @@
 import { Link } from 'react-router';
-import { SignupForm } from '../features/auth/components/SignupForm';
+import { ResetPasswordForm } from '../features/auth/components/ResetPasswordForm';
 
-const Signup = () => {
+const ResetPassword = () => {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-(--color-bg-deep)">
       <div className="w-full max-w-md flex flex-col gap-8">
-        <SignupForm />
+        <ResetPasswordForm />
         <p className="text-center text-sm text-(--color-text-dim)">
-          Already have an account?{' '}
+          Suddenly remembered?{' '}
           <Link
             to="/login"
             className="text-(--color-primary) hover:underline font-bold"
@@ -20,4 +20,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ResetPassword;

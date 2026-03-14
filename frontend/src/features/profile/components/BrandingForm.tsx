@@ -16,7 +16,7 @@ export const BrandingForm = ({ isSaving, isUploading }: BrandingFormProps) => {
 
   // Use the existing logo URL from the server as the initial preview
   const existingLogoUrl = watch('companyLogoUrl');
-  const displayUrl = previewUrl ?? existingLogoUrl ?? null;
+  const displayUrl = previewUrl || existingLogoUrl || null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

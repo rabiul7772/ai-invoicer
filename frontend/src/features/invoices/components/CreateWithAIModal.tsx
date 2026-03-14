@@ -1,4 +1,4 @@
-import { Copy, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { ModalPortal } from '../../../components/ui/ModalPortal';
 import type { ExtractedInvoiceData } from '../api/extractInvoiceData';
@@ -6,6 +6,9 @@ import { useAiSampleText } from '../hooks/useAiSampleText';
 import { useExtractInvoiceData } from '../hooks/useExtractInvoiceData';
 import { AIModalFooter } from './ai-modal/AIModalFooter';
 import { AIModalHeader } from './ai-modal/AIModalHeader';
+import { useProfileQuery } from '../../profile/hooks/useProfile';
+import { AIProfileRequired } from './ai-modal/AIProfileRequired';
+import { AIInvoiceTextInput } from './ai-modal/AIInvoiceTextInput';
 
 interface Props {
   isOpen: boolean;
@@ -21,6 +24,7 @@ export const CreateWithAIModal = ({
   const [text, setText] = useState('');
   const { extractData, isExtracting } = useExtractInvoiceData();
   const { generateAndCopy, isGenerating } = useAiSampleText();
+  const { data: profileData, isPending: isProfileLoading } = useProfileQuery();
 
   if (!isOpen) return null;
 
@@ -47,39 +51,32 @@ export const CreateWithAIModal = ({
         >
           <AIModalHeader onClose={onClose} />
 
-          <div className="p-8 space-y-6 overflow-y-auto custom-scrollbar">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold tracking-wider">
-                AI generated random invoice text (for testing)
-              </label>
-              <button
-                onClick={() => generateAndCopy()}
-                disabled={isGenerating}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-(--color-primary-muted) text-(--color-primary) text-xs font-bold border border-(--color-primary)/20 hover:bg-(--color-primary)/20 transition-all disabled:opacity-50"
-              >
-                {isGenerating ? (
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                ) : (
-                  <Copy className="w-3.5 h-3.5" />
-                )}
-                Get Smart Sample
-              </button>
-            </div>
+          <div className="p-8 flex flex-col min-h-[400px]">
+            {isProfileLoading ? (
+              <div className="flex-1 flex flex-col items-center justify-center gap-4 text-(--color-text-dim)">
+                <Loader2 className="w-8 h-8 animate-spin text-(--color-primary)" />
+                <p>Checking business info...</p>
+              </div>
+            ) : !profileData?.businessName ? (
+              <AIProfileRequired onClose={onClose} />
+            ) : (
+              <div className="space-y-6 flex-1 flex flex-col overflow-hidden">
+                <AIInvoiceTextInput
+                  text={text}
+                  onChange={setText}
+                  isGenerating={isGenerating}
+                  isExtracting={isExtracting}
+                  onGenerateSample={() => generateAndCopy()}
+                />
 
-            <textarea
-              value={text}
-              onChange={e => setText(e.target.value)}
-              placeholder="Ex: Bill to John Doe, 123 Main St. Items: Logo Design $500 x 1, Website Dev $1500 x 1..."
-              className="w-full h-64 bg-(--color-bg-accent) border border-(--color-border) rounded-xl p-4 text-(--color-text-bright) placeholder:text-(--color-text-muted) focus:ring-2 focus:ring-(--color-primary) focus:border-transparent outline-none transition-all resize-none custom-scrollbar"
-              disabled={isExtracting}
-            />
-
-            <AIModalFooter
-              onClose={onClose}
-              onGenerate={handleGenerate}
-              isExtracting={isExtracting}
-              canGenerate={text.trim().length > 0}
-            />
+                <AIModalFooter
+                  onClose={onClose}
+                  onGenerate={handleGenerate}
+                  isExtracting={isExtracting}
+                  canGenerate={text.trim().length > 0}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

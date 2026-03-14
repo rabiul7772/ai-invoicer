@@ -74,9 +74,20 @@ export const Footer = () => {
           ))}
         </div>
 
-        <div className="pt-8 border-t border-(--color-border) flex flex-col items-center justify-center gap-6">
-          <p className="text-(--color-text-muted) text-[10px] uppercase font-bold tracking-widest text-center">
+        <div className="pt-8 border-t border-(--color-border) flex flex-col items-center justify-center gap-3">
+          <p className="text-(--color-text-muted) text-[12px] uppercase font-bold tracking-widest text-center">
             © {new Date().getFullYear()} AI Invoice Inc. All rights reserved.
+          </p>
+          <p className="text-(--color-text-muted) text-[12px] text-center">
+            Built with ❤️ by{'   '}
+            <a
+              href="https://rabiul-akand-portfolio.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-(--color-primary) font-semibold hover:underline transition-colors underline"
+            >
+              Rabiul Akand
+            </a>
           </p>
         </div>
       </div>

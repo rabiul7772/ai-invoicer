@@ -7,18 +7,18 @@ import { BrandingForm } from '../features/profile/components/BrandingForm';
 import { useProfileForm } from '../features/profile/hooks/useProfileForm';
 
 const Profile = () => {
-  const { methods, isSaving, isUploading, profileData, onSubmit } =
+  const { methods, isSaving, isUploading, profileData, onSubmit, userData } =
     useProfileForm();
-  // Removed blocking PageSpinner to allow skeleton or instant layout rendering
-  // Hydration will happen as soon as methods.values is populated via the hook
+
+  const user = userData?.data?.user;
 
   return (
     <DashboardLayout>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="max-w-3xl">
           <ProfileHeader
-            name={profileData?.fullName}
-            email={profileData?.email}
+            name={profileData?.fullName || user?.fullName}
+            email={profileData?.email || user?.email}
             avatarUrl={profileData?.avatarUrl}
           />
 
