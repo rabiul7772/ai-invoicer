@@ -10,6 +10,7 @@ import userRouter from './routes/user.routes.js';
 import invoiceRouter from './routes/invoice.routes.js';
 import aiRouter from './routes/ai.routes.js';
 import dashboardRouter from './routes/dashboard.routes.js';
+import seedRouter from './routes/seed.routes.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -37,6 +38,7 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/invoices', invoiceRouter);
 app.use('/api/v1/ai', aiRouter);
 app.use('/api/v1/dashboard', dashboardRouter);
+app.use('/api/v1/seed', seedRouter);
 
 app.use(errorMiddleware);
 

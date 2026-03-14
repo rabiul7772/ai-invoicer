@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import type { AuthenticatedRequest } from '../middlewares/auth.middleware.js';
+import { Invoice } from '../models/invoice.model.js';
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_API_KEY, GEMINI_MODEL } from '../config/env.js';
 
@@ -113,5 +115,78 @@ Return ONLY the text of the message, nothing else. No JSON, no markdown.`;
       res,
       'Failed to generate sample text, please try again!'
     );
+  }
+};
+
+export const getDashboardInsights = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    // Fetch last 50 invoices to provide context to Gemini
+    const invoices = await Invoice.find({ userId: userId as any })
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .select('status totalAmount billTo createdAt');
+
+    if (invoices.length === 0) {
+      return res.status(200).json({
+        status: 'success',
+        data: [
+          {
+            icon: 'Sparkles',
+            iconColor: '#00ff88',
+            content:
+              'Welcome! Start creating invoices to see AI-driven business insights here.'
+          }
+        ]
+      });
+    }
+
+    const summary = invoices.map(inv => ({
+      status: inv.status,
+      total: inv.totalAmount,
+      client: inv.billTo.clientName,
+      date: inv.createdAt
+    }));
+
+    const prompt = `
+Analyze the following invoice data and provide exactly 3 concise, professional business insights.
+One insight MUST specifically analyze overdue risks or collection issues if present.
+
+Data Summary:
+${JSON.stringify(summary, null, 2)}
+
+Output Format (STRICT JSON ARRAY OF OBJECTS):
+[
+  {
+    "icon": "TrendingUp" | "AlertTriangle" | "Zap" | "ShieldCheck" | "BarChart3" | "UserCheck",
+    "iconColor": "string (hex color)",
+    "content": "string (one sentence actionable insight)"
+  }
+]
+
+Return ONLY the JSON array.`;
+
+    const result = await genAI.models.generateContent({
+      model: modelName,
+      contents: prompt
+    });
+
+    const responseText = result.text ?? '';
+    const cleanedJson = responseText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+    const insights = JSON.parse(cleanedJson);
+
+    res.status(200).json({ status: 'success', data: insights });
+  } catch (error: any) {
+    handleAiError(error, res, 'Failed to generate AI insights');
   }
 };

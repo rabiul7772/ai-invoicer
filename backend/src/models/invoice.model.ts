@@ -30,6 +30,8 @@ export interface IInvoice extends Document {
   taxTotal: number;
   totalAmount: number;
   status: 'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE';
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const invoiceItemSchema = new Schema<IInvoiceItem>({

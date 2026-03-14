@@ -44,17 +44,28 @@ export const RecentInvoicesTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(255,255,255,0.05)]">
-            {data?.recentInvoices.map(invoice => (
-              <RecentInvoiceRow
-                key={invoice._id}
-                _id={invoice._id}
-                status={invoice.status}
-                totalAmount={invoice.totalAmount}
-                dueDate={invoice.dueDate}
-                clientName={invoice.billTo.clientName}
-                color={STATUS_COLORS[invoice.status] || '#94a3b8'}
-              />
-            ))}
+            {data && data.recentInvoices.length > 0 ? (
+              data.recentInvoices.map(invoice => (
+                <RecentInvoiceRow
+                  key={invoice._id}
+                  _id={invoice._id}
+                  status={invoice.status}
+                  totalAmount={invoice.totalAmount}
+                  dueDate={invoice.dueDate}
+                  clientName={invoice.billTo.clientName}
+                  color={STATUS_COLORS[invoice.status] || '#94a3b8'}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="py-12 text-center">
+                  <p className="text-(--color-text-dim) font-medium">
+                    No invoices created yet. Your recent activity will appear
+                    here.
+                  </p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

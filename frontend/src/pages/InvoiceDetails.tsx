@@ -118,6 +118,7 @@ const InvoiceDetails = () => {
       <SendInvoiceModal
         isOpen={isSendModalOpen}
         onClose={() => setIsSendModalOpen(false)}
+        onSuccess={() => navigate('/invoices')}
         invoiceId={id || ''}
         status={invoice.status}
         defaultData={{

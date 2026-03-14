@@ -1,6 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Response, NextFunction } from 'express';
 import { Invoice } from '../models/invoice.model.js';
-import { User } from '../models/user.model.js';
+import { type AuthenticatedRequest } from '../middlewares/auth.middleware.js';
 import { generatePDF } from '../utils/pdfGenerator.js';
 import { generateInvoiceHtml } from '../utils/invoice-template.js';
 import { emailService } from '../utils/emailService.js';
@@ -9,26 +9,17 @@ import { emailService } from '../utils/emailService.js';
  * Controller for invoice operations.
  */
 export const createInvoice = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const invoiceData = req.body;
-
-    // Temporary singleton user approach until auth is fully implemented.
-    const user = await User.findOne();
-    if (!user) {
-      res.status(404).json({
-        success: false,
-        message: 'No user found. Please create a profile first.'
-      });
-      return;
-    }
+    const userId = req.user!._id;
 
     const newInvoice = await Invoice.create({
       ...invoiceData,
-      userId: user._id
+      userId
     });
 
     res.status(201).json({
@@ -42,18 +33,20 @@ export const createInvoice = async (
 };
 
 export const getInvoiceById = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const invoice = await Invoice.findById(id);
+    const userId = req.user!._id;
+
+    const invoice = await Invoice.findOne({ _id: id, userId } as any);
 
     if (!invoice) {
       res.status(404).json({
         success: false,
-        message: 'Invoice not found'
+        message: 'Invoice not found or unauthorized'
       });
       return;
     }
@@ -68,19 +61,20 @@ export const getInvoiceById = async (
 };
 
 export const sendInvoiceEmail = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const { id } = req.params;
     const { recipientEmail, subject, message } = req.body;
+    const userId = req.user!._id;
 
-    const invoice = await Invoice.findById(id);
+    const invoice = await Invoice.findOne({ _id: id, userId } as any);
     if (!invoice) {
       res.status(404).json({
         success: false,
-        message: 'Invoice not found'
+        message: 'Invoice not found or unauthorized'
       });
       return;
     }
@@ -123,7 +117,7 @@ export const sendInvoiceEmail = async (
 };
 
 export const getAllInvoices = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -133,29 +127,20 @@ export const getAllInvoices = async (
     const search = req.query.search as string;
     const status = req.query.status as string;
     const skip = (page - 1) * limit;
-
-    // Temporary singleton user approach
-    const user = await User.findOne();
-    if (!user) {
-      res.status(404).json({
-        success: false,
-        message: 'No user found.'
-      });
-      return;
-    }
+    const userId = req.user!._id;
 
     // Check for overdue invoices and update them
     const now = new Date();
     await Invoice.updateMany(
       {
-        userId: user._id,
+        userId,
         status: 'SENT',
         dueDate: { $lt: now.toISOString() }
       },
       { $set: { status: 'OVERDUE' } }
     );
 
-    const query: Record<string, unknown> = { userId: user._id };
+    const query: Record<string, unknown> = { userId };
 
     if (status) {
       const upperStatus = status.toUpperCase();
@@ -193,13 +178,14 @@ export const getAllInvoices = async (
 };
 
 export const updateInvoiceStatus = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+    const userId = req.user!._id;
 
     const validStatuses = ['DRAFT', 'SENT', 'PAID', 'OVERDUE'];
     if (!validStatuses.includes(status)) {
@@ -210,8 +196,8 @@ export const updateInvoiceStatus = async (
       return;
     }
 
-    const invoice = await Invoice.findByIdAndUpdate(
-      id,
+    const invoice = await Invoice.findOneAndUpdate(
+      { _id: id, userId } as any,
       { status },
       { returnDocument: 'after' }
     );
@@ -219,7 +205,7 @@ export const updateInvoiceStatus = async (
     if (!invoice) {
       res.status(404).json({
         success: false,
-        message: 'Invoice not found'
+        message: 'Invoice not found or unauthorized'
       });
       return;
     }
@@ -235,23 +221,28 @@ export const updateInvoiceStatus = async (
 };
 
 export const updateInvoice = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const { id } = req.params;
     const updateData = req.body;
+    const userId = req.user!._id;
 
-    const invoice = await Invoice.findByIdAndUpdate(id, updateData, {
-      returnDocument: 'after',
-      runValidators: true
-    });
+    const invoice = await Invoice.findOneAndUpdate(
+      { _id: id, userId } as any,
+      updateData,
+      {
+        returnDocument: 'after',
+        runValidators: true
+      }
+    );
 
     if (!invoice) {
       res.status(404).json({
         success: false,
-        message: 'Invoice not found'
+        message: 'Invoice not found or unauthorized'
       });
       return;
     }
@@ -265,20 +256,25 @@ export const updateInvoice = async (
     next(error);
   }
 };
+
 export const deleteInvoice = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
     const { id } = req.params;
-    const invoice = await Invoice.findByIdAndDelete(id);
+    const userId = req.user!._id;
 
-    if (!invoice)
+    const invoice = await Invoice.findOneAndDelete({ _id: id, userId } as any);
+
+    if (!invoice) {
       res.status(404).json({
         success: false,
-        message: 'Invoice not found'
+        message: 'Invoice not found or unauthorized'
       });
+      return;
+    }
 
     res.status(200).json({
       success: true,

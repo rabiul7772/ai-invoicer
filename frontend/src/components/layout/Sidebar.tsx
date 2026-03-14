@@ -2,9 +2,10 @@ import { LogOut, FileText } from 'lucide-react';
 import { Link, NavLink } from 'react-router';
 import { navItems } from '../../constants';
 import { useLogout } from '../../features/auth/hooks/useAuth';
+import { SeedDemoButton } from '../../features/dashboard/components/SeedDemoButton';
 
 export const Sidebar = () => {
-  const { mutate: logout, isPending } = useLogout();
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
 
   return (
     <aside className="w-64 border-r border-(--color-border) bg-(--color-bg-deep) flex flex-col h-screen sticky top-0">
@@ -44,6 +45,9 @@ export const Sidebar = () => {
 
       {/* Pro Plan Upgrade & Logout */}
       <div className="p-4 space-y-4">
+        {/* Seed Demo Data Button */}
+        <SeedDemoButton />
+
         {/* Upgrade Card */}
         <div className="p-4 rounded-xl bg-(--color-bg-accent) border border-[rgba(0,255,136,0.1)]">
           <p className="text-[10px] font-bold text-(--color-primary) uppercase tracking-wider mb-2">
@@ -61,11 +65,11 @@ export const Sidebar = () => {
         <button
           onClick={() => logout?.()}
           className="flex items-center gap-3 px-4 py-3 w-full text-left text-sm font-medium text-(--color-text-dim) hover:bg-red-500/10 rounded-lg transition-colors"
-          disabled={isPending}
+          disabled={isLoggingOut}
         >
           <div className="text-red-400 flex items-center gap-2">
             <LogOut className="w-5 h-5" />
-            {isPending ? 'Logging out...' : 'Logout'}
+            {isLoggingOut ? 'Logging out...' : 'Logout'}
           </div>
         </button>
       </div>

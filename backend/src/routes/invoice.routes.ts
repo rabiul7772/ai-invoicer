@@ -10,7 +10,12 @@ import {
 } from '../controllers/invoice.controller.js';
 import { generateInvoicePdf } from '../controllers/pdf.controller.js';
 
+import { protect } from '../middlewares/auth.middleware.js';
+
 const invoiceRouter = Router();
+
+// Apply protect middleware to all invoice routes
+invoiceRouter.use(protect as any);
 
 // GET /api/v1/invoices
 invoiceRouter.get('/', getAllInvoices);
