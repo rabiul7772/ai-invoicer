@@ -1,17 +1,18 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Response, NextFunction } from 'express';
 import { User } from '../models/user.model.js';
+import type { AuthenticatedRequest } from '../middlewares/auth.middleware.js';
 
 /**
  * Controller for user profile operations.
- * Temporary singleton user approach until auth is implemented.
  */
 export const getProfile = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await User.findOne();
+    // req.user is already populated by protect middleware
+    const user = req.user;
 
     if (!user) {
       return res.status(404).json({
@@ -31,26 +32,30 @@ export const getProfile = async (
 };
 
 export const createProfile = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const profileData = req.body;
+    const userId = req.user?._id;
 
-    const existingUser = await User.findOne({ email: profileData.email });
-    if (existingUser) {
-      return res.status(400).json({
+    // Profile is part of User model, so we update the existing user
+    const user = await User.findByIdAndUpdate(userId, profileData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: 'User with this email already exists'
+        message: 'User not found'
       });
     }
 
-    const user = await User.create(profileData);
-
     res.status(201).json({
       success: true,
-      message: 'User created successfully',
+      message: 'Profile created successfully',
       data: user
     });
   } catch (error) {
@@ -59,19 +64,25 @@ export const createProfile = async (
 };
 
 export const updateProfile = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const profileData = req.body;
+    const userId = req.user?._id;
 
-    // findOneAndUpdate with upsert: true handles creation if no user exists
-    const user = await User.findOneAndUpdate({}, profileData, {
-      returnDocument: 'after',
-      upsert: true,
+    const user = await User.findByIdAndUpdate(userId, profileData, {
+      new: true,
       runValidators: true
     });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
 
     res.status(200).json({
       success: true,

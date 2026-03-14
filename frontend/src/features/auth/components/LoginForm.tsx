@@ -7,19 +7,24 @@ import { motion } from 'motion/react';
 import { LogIn } from 'lucide-react';
 import { Link } from 'react-router';
 
+import { useLogin } from '../hooks/useAuth';
+
 export const LoginForm = () => {
+  const { mutate: login, isPending } = useLogin();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<LoginFields>({
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: 'rabiulakand@gmail.com',
+      password: '11223344'
+    }
   });
 
-  const onSubmit = async (data: LoginFields) => {
-    // Logic will be added later
-    console.log(data);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  const onSubmit = (data: LoginFields) => {
+    login(data);
   };
 
   return (
@@ -66,7 +71,7 @@ export const LoginForm = () => {
         type="submit"
         fullWidth
         size="lg"
-        isLoading={isSubmitting}
+        isLoading={isPending}
         icon={LogIn}
       >
         Sign In

@@ -8,6 +8,8 @@ import {
   useCreateProfile
 } from './useProfile';
 import { uploadImage } from '../../../lib/api.cloudinary';
+import { useUser } from '../../auth/hooks/useAuth';
+import { toast } from 'react-hot-toast';
 
 /**
  * Owns all profile form state.
@@ -18,19 +20,23 @@ import { uploadImage } from '../../../lib/api.cloudinary';
  */
 export const useProfileForm = () => {
   const [isUploading, setIsUploading] = useState(false);
-  const { data: profileData, isPending } = useProfileQuery();
+  const { data: profileData, isPending: isProfilePending } = useProfileQuery();
+  const { data: userData, isPending: isUserPending } = useUser();
   const { createProfile, isCreating } = useCreateProfile();
   const { updateProfile, isUpdating } = useUpdateProfile();
 
   const isSaving = isCreating || isUpdating;
+  const isPending = isProfilePending || isUserPending;
+
+  const user = userData?.data?.user;
 
   const methods = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     // `values` keeps the form in sync with async data automatically.
     // RHF resets whenever this object reference changes (i.e. on first fetch).
     values: {
-      fullName: profileData?.fullName ?? '',
-      email: profileData?.email ?? '',
+      fullName: profileData?.fullName ?? user?.fullName ?? '',
+      email: profileData?.email ?? user?.email ?? '',
       businessName: profileData?.businessName ?? '',
       phoneNumber: profileData?.phoneNumber ?? '',
       address: profileData?.address ?? '',
@@ -42,11 +48,20 @@ export const useProfileForm = () => {
   const onSubmit = async (data: ProfileFormValues) => {
     try {
       // 1. Handle Logo Upload
-      const logoFile = (
-        document.getElementById('companyLogo') as HTMLInputElement | null
-      )?.files?.[0];
+      const logoInput = document.getElementById(
+        'companyLogo'
+      ) as HTMLInputElement | null;
+      const logoFile = logoInput?.files?.[0];
 
       let companyLogoUrl = data.companyLogoUrl;
+
+      // Mandatory check for company logo
+      if (!companyLogoUrl && !logoFile) {
+        toast.error('Please upload your company logo');
+        // If the input exists, we can focus it or highlight it
+        return;
+      }
+
       if (logoFile) {
         setIsUploading(true);
         companyLogoUrl = await uploadImage(logoFile);
@@ -66,8 +81,8 @@ export const useProfileForm = () => {
       // 3. Prepare final data for backend (JSON)
       const finalData = {
         ...data,
-        companyLogoUrl,
-        avatarUrl
+        companyLogoUrl: companyLogoUrl || '',
+        avatarUrl: avatarUrl || ''
       };
 
       if (profileData) {
@@ -86,6 +101,7 @@ export const useProfileForm = () => {
     isSaving,
     isUploading,
     profileData,
+    userData,
     onSubmit
   };
 };

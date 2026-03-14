@@ -9,6 +9,7 @@ import {
   BarChart3,
   FileText,
   Github,
+  Home,
   LayoutDashboard,
   LinkedinIcon,
   Mail,
@@ -28,6 +29,7 @@ export const NAV_LINKS = [
 ];
 
 export const navItems = [
+  { icon: Home, label: 'Home', to: '/' },
   { icon: LayoutDashboard, label: 'Dashboard', to: '/dashboard' },
   { icon: FileText, label: 'Invoices', to: '/invoices' },
   { icon: PlusCircle, label: 'Create Invoice', to: '/create-invoice' },

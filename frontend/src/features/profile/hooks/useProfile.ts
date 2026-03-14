@@ -34,6 +34,9 @@ export const useCreateProfile = () => {
       queryClient.invalidateQueries({
         queryKey: PROFILE_QUERY_KEY
       });
+      queryClient.invalidateQueries({
+        queryKey: ['user']
+      });
     },
     onError: (error: any) => {
       toast.error(
@@ -58,6 +61,9 @@ export const useUpdateProfile = () => {
       toast.success('Profile updated successfully!');
       queryClient.invalidateQueries({
         queryKey: PROFILE_QUERY_KEY
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['user']
       });
     },
     onError: (error: any) => {

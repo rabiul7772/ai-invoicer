@@ -5,6 +5,7 @@ import { FRONTEND_URL, PORT } from './config/env.js';
 import { connectDB } from './config/database.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 import arcjetMiddleware from './middlewares/arcjet.middleware.js';
+import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import invoiceRouter from './routes/invoice.routes.js';
 import aiRouter from './routes/ai.routes.js';
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(arcjetMiddleware);
 
 // Routers
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/invoices', invoiceRouter);
 app.use('/api/v1/ai', aiRouter);

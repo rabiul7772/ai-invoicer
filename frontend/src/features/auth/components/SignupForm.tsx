@@ -6,18 +6,20 @@ import { Button } from '../../../components/ui/Button';
 import { motion } from 'motion/react';
 import { UserPlus } from 'lucide-react';
 
+import { useRegister } from '../hooks/useAuth';
+
 export const SignupForm = () => {
+  const { mutate: registerUser, isPending } = useRegister();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<SignupFields>({
     resolver: zodResolver(signupSchema)
   });
 
-  const onSubmit = async (data: SignupFields) => {
-    console.log(data);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  const onSubmit = (data: SignupFields) => {
+    registerUser(data);
   };
 
   return (
@@ -37,8 +39,8 @@ export const SignupForm = () => {
       <Input
         label="Full Name"
         placeholder="John Doe"
-        error={errors.name?.message}
-        {...register('name')}
+        error={errors.fullName?.message}
+        {...register('fullName')}
       />
 
       <Input
@@ -70,7 +72,7 @@ export const SignupForm = () => {
         type="submit"
         fullWidth
         size="lg"
-        isLoading={isSubmitting}
+        isLoading={isPending}
         icon={UserPlus}
       >
         Create Account
