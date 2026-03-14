@@ -10,7 +10,7 @@ interface InvoiceFormHeaderProps {
 }
 
 export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
-  const { reset, getValues } = useFormContext();
+  const { reset, setValue } = useFormContext();
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   return (
@@ -62,22 +62,20 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
         isOpen={isAIModalOpen}
         onClose={() => setIsAIModalOpen(false)}
         onDataExtracted={data => {
-          reset({
-            ...getValues(),
-            billTo: {
-              clientName: data.clientName,
-              clientEmail: data.email,
-              clientAddress: data.address,
-              clientPhone: data.phone || ''
-            },
-            items: data.items.map(item => ({
+          setValue('billTo.clientName', data.clientName);
+          setValue('billTo.clientEmail', data.email);
+          setValue('billTo.clientAddress', data.address);
+          setValue('billTo.clientPhone', data.phone || '');
+          setValue(
+            'items',
+            data.items.map(item => ({
               name: item.name,
               quantity: item.quantity,
               price: item.price,
               tax: 0,
               total: item.quantity * item.price
             }))
-          });
+          );
         }}
       />
     </div>

@@ -55,9 +55,35 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
-      queryClient.setQueryData(['user'], null);
+      queryClient.clear();
       toast.success('Logged out successfully');
       navigate('/');
+    }
+  });
+};
+
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: authApi.forgotPassword,
+    onSuccess: () => {
+      toast.success('Reset link sent to your email!');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Something went wrong');
+    }
+  });
+};
+
+export const useResetPassword = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: authApi.resetPassword,
+    onSuccess: () => {
+      toast.success('Password reset successfully! Please login.');
+      navigate('/login');
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || 'Something went wrong');
     }
   });
 };

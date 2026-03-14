@@ -6,10 +6,20 @@ import {
   buttonSpring
 } from '../../animations/variants';
 import { ScrollIndicator } from '../ui/ScrollIndicator';
+import { useNavigate } from 'react-router';
+import { useUser } from '../../features/auth/hooks/useAuth';
 
 export const Hero = () => {
+  const navigate = useNavigate();
+  const { data: userResponse } = useUser();
+  const isLoggedIn = !!userResponse?.data?.user;
+
+  const handleGetStarted = () => {
+    navigate(isLoggedIn ? '/invoices' : '/login');
+  };
+
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+    <section className="relative pt-32 pb-10 md:pt-48 md:pb-12 overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-(--color-primary-muted) blur-[120px] rounded-full -z-10 opacity-30" />
 
       <motion.div
@@ -49,6 +59,7 @@ export const Hero = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <motion.button
+            onClick={handleGetStarted}
             className="btn-neon-primary w-full sm:w-auto text-lg group"
             whileHover="hover"
             whileTap="tap"

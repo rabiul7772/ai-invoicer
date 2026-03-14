@@ -71,7 +71,7 @@ export const SignupForm = () => {
       <Button
         type="submit"
         fullWidth
-        size="lg"
+        size="md"
         isLoading={isPending}
         icon={UserPlus}
       >

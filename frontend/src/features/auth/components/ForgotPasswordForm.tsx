@@ -5,9 +5,10 @@ import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
 import { motion } from 'motion/react';
 import { Send } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { useForgotPassword } from '../hooks/useAuth';
 
 export const ForgotPasswordForm = () => {
+  const { mutateAsync: forgotPassword } = useForgotPassword();
   const {
     register,
     handleSubmit,
@@ -17,9 +18,7 @@ export const ForgotPasswordForm = () => {
   });
 
   const onSubmit = async (data: ForgotPasswordFields) => {
-    console.log(data);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success('Reset link sent to your email!');
+    await forgotPassword(data.email);
   };
 
   return (
@@ -48,7 +47,7 @@ export const ForgotPasswordForm = () => {
       <Button
         type="submit"
         fullWidth
-        size="lg"
+        size="md"
         isLoading={isSubmitting}
         icon={Send}
       >

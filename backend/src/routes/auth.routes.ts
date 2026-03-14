@@ -5,13 +5,19 @@ import {
   logout,
   getMe
 } from '../controllers/auth.controller.js';
+import {
+  forgotPassword,
+  resetPassword
+} from '../controllers/password.controller.js';
 import { protect, optionalProtect } from '../middlewares/auth.middleware.js';
 
 const authRouter = Router();
 
 authRouter.post('/register', register);
 authRouter.post('/login', login);
-authRouter.get('/logout', logout);
+authRouter.post('/logout', logout);
+authRouter.post('/forgot-password', forgotPassword);
+authRouter.patch('/reset-password/:token', resetPassword);
 authRouter.get('/me', optionalProtect, getMe);
 
 export default authRouter;

@@ -54,7 +54,7 @@ export const optionalProtect = async (
   try {
     const authHeader = req.headers.authorization;
     const token =
-      req.cookies.jwt ||
+      req.cookies?.jwt ||
       (authHeader?.startsWith('Bearer') && authHeader.split(' ')[1]);
 
     if (token) {

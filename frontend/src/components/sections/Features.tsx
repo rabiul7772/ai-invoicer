@@ -26,7 +26,7 @@ const FeatureCard = ({ icon: Icon, title, description }: FeatureCardProps) => (
 
 export const Features = () => {
   return (
-    <section id="features" className="py-24 bg-(--color-bg-deep)">
+    <section id="features" className="pt-12 pb-24 bg-(--color-bg-deep)">
       <div className="container-custom">
         <div className="text-center mb-16">
           <span className="section-label">Core Capabilities</span>
