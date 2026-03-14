@@ -18,13 +18,15 @@ interface UseSendInvoiceFormProps {
     clientEmail: string;
     businessName: string;
   };
+  onSuccess?: () => void;
 }
 
 export const useSendInvoiceForm = ({
   invoiceId,
   onClose,
   status,
-  defaultData
+  defaultData,
+  onSuccess
 }: UseSendInvoiceFormProps) => {
   const getDefaultMessage = () => {
     if (status === 'OVERDUE') {
@@ -63,6 +65,7 @@ export const useSendInvoiceForm = ({
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
       queryClient.invalidateQueries({ queryKey: ['invoice', invoiceId] });
       onClose();
+      onSuccess?.();
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Failed to send email.');
     } finally {

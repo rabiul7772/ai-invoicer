@@ -14,6 +14,7 @@ interface Props {
     clientEmail: string;
     businessName: string;
   };
+  onSuccess?: () => void;
 }
 
 export const SendInvoiceModal = ({
@@ -21,13 +22,15 @@ export const SendInvoiceModal = ({
   onClose,
   invoiceId,
   status,
-  defaultData
+  defaultData,
+  onSuccess
 }: Props) => {
   const { register, onSubmit, errors, isLoading } = useSendInvoiceForm({
     invoiceId,
     onClose,
     status,
-    defaultData
+    defaultData,
+    onSuccess
   });
 
   if (!isOpen) return null;

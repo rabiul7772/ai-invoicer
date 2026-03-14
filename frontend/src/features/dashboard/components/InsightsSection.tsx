@@ -1,28 +1,42 @@
-import { Sparkles, AlertTriangle, TrendingUp, Calculator } from 'lucide-react';
+import {
+  Sparkles,
+  AlertTriangle,
+  TrendingUp,
+  Zap,
+  ShieldCheck,
+  BarChart3,
+  UserCheck,
+  Loader2
+} from 'lucide-react';
 import { InsightCard } from './InsightCard';
+import { useAiInsights } from '../hooks/useAiInsights';
 
-const INSIGHTS = [
-  {
-    icon: AlertTriangle,
-    iconColor: '#ff5555',
-    content:
-      '3 invoices are overdue by more than 7 days. Automatic follow-ups have been drafted.'
-  },
-  {
-    icon: TrendingUp,
-    iconColor: '#00ff88',
-    content:
-      'Projected cash flow for next month is $45,200 based on historical client payment patterns.'
-  },
-  {
-    icon: Calculator,
-    iconColor: '#3b82f6',
-    content:
-      'Tax estimation for Q3 is currently $12,400. Set aside 15% of upcoming revenue.'
-  }
-];
+const ICON_MAP: Record<string, any> = {
+  TrendingUp,
+  AlertTriangle,
+  Zap,
+  ShieldCheck,
+  BarChart3,
+  UserCheck,
+  Sparkles
+};
 
 export const InsightsSection = () => {
+  const { data: insights, isLoading, isError } = useAiInsights();
+
+  if (isLoading) {
+    return (
+      <div className="card-premium border-[rgba(0,255,136,0.05)]! py-8! min-h-[200px] flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-8 h-8 text-[#00ff88] animate-spin" />
+        <p className="text-(--color-text-dim) animate-pulse font-medium">
+          Gemini is analyzing your business data...
+        </p>
+      </div>
+    );
+  }
+
+  if (isError || !insights) return null;
+
   return (
     <div className="card-premium border-[rgba(0,255,136,0.05)]! py-8!">
       <div className="flex items-center gap-2 mb-8">
@@ -30,10 +44,28 @@ export const InsightsSection = () => {
         <h2 className="text-lg font-bold">AI Business Insights</h2>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {INSIGHTS.map((insight, i) => (
-          <InsightCard key={i} {...insight} />
-        ))}
+      <div
+        className={`grid gap-6 ${
+          insights.length === 1
+            ? 'grid-cols-1 max-w-md mx-auto text-center'
+            : 'grid-cols-1 lg:grid-cols-3'
+        }`}
+      >
+        {insights.map((insight, i) => {
+          const IconComponent = ICON_MAP[insight.icon] || Sparkles;
+          return (
+            <div
+              key={i}
+              className={insights.length === 1 ? 'flex justify-center' : ''}
+            >
+              <InsightCard
+                icon={IconComponent}
+                iconColor={insight.iconColor}
+                content={insight.content}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

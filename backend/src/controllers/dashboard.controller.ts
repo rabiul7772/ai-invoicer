@@ -1,6 +1,6 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Response, NextFunction } from 'express';
 import { Invoice } from '../models/invoice.model.js';
-import { User } from '../models/user.model.js';
+import { type AuthenticatedRequest } from '../middlewares/auth.middleware.js';
 
 const STATS_GROUP = {
   $group: {
@@ -19,19 +19,15 @@ const STATS_GROUP = {
 };
 
 export const getDashboardData = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await User.findOne();
-    if (!user)
-      return res
-        .status(404)
-        .json({ success: false, message: 'User not found' });
+    const userId = req.user!._id;
 
     const stats = await Invoice.aggregate([
-      { $match: { userId: user._id } },
+      { $match: { userId } },
       {
         $facet: {
           allTimeStats: [STATS_GROUP],
