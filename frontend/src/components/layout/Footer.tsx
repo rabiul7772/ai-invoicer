@@ -76,7 +76,7 @@ export const Footer = () => {
 
         <div className="pt-8 border-t border-(--color-border) flex flex-col items-center justify-center gap-3">
           <p className="text-(--color-text-muted) text-[12px] uppercase font-bold tracking-widest text-center">
-            © {new Date().getFullYear()} AI Invoice Inc. All rights reserved.
+            © {new Date().getFullYear()} AI Invoicer. All rights reserved.
           </p>
           <p className="text-(--color-text-muted) text-[12px] text-center">
             Built with ❤️ by{'   '}

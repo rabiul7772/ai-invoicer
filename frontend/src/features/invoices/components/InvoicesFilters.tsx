@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ListFilter, ChevronDown, Check } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { STATUS_OPTIONS } from '../../../constants';
 
 export const InvoicesFilters = () => {

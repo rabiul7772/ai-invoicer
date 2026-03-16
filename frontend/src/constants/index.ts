@@ -242,3 +242,9 @@ export const STATUS_COLORS: Record<string, string> = {
   OVERDUE: '#ff5555',
   DRAFT: '#94a3b8'
 };
+
+export const TEST_CARD_DETAILS = [
+  { label: 'Card Number', value: '4242 4242 4242 4242' },
+  { label: 'Expiry', value: '12 / 34' },
+  { label: 'CVC', value: '123' }
+];

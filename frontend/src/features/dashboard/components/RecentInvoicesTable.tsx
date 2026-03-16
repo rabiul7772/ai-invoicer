@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useDashboardStats } from '../hooks/useDashboardStats';
 import { RecentInvoiceRow } from './RecentInvoiceRow';
 import { STATUS_COLORS } from '../../../constants';

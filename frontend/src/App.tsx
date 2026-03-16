@@ -12,6 +12,9 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import InvoiceDetails from './pages/InvoiceDetails';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 const App = () => {
   return (
@@ -19,13 +22,16 @@ const App = () => {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/invoices" element={<Invoices />} />
+            <Route path="/create-invoice" element={<CreateEditInvoice />} />
+            <Route path="/edit-invoice/:id" element={<CreateEditInvoice />} />
+            <Route path="/invoices/:id" element={<InvoiceDetails />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="/checkout-success" element={<CheckoutSuccess />} />
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/create-invoice" element={<CreateEditInvoice />} />
-          <Route path="/edit-invoice/:id" element={<CreateEditInvoice />} />
-          <Route path="/invoices/:id" element={<InvoiceDetails />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

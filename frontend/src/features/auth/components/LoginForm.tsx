@@ -5,12 +5,34 @@ import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
 import { motion } from 'motion/react';
 import { LogIn } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
+import { api } from '../../../services/api';
 
 import { useLogin } from '../hooks/useAuth';
 
 export const LoginForm = () => {
-  const { mutate: login, isPending } = useLogin();
+  const location = useLocation();
+  const returnTo = location.state?.returnTo;
+  const planId = location.state?.planId;
+
+  const { mutate: login, isPending } = useLogin(
+    returnTo === 'checkout' && planId
+      ? {
+          onSuccessCallback: async () => {
+            try {
+              const response = await api.post('/stripe/create-checkout-session', {
+                planId
+              });
+              window.location.href = response.data.url;
+            } catch (error) {
+              console.error('Failed to auto-redirect to checkout', error);
+              window.location.href = '/dashboard';
+            }
+          }
+        }
+      : undefined
+  );
+
   const {
     register,
     handleSubmit,
