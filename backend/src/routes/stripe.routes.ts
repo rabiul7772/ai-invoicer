@@ -10,4 +10,10 @@ paymentRouter.post(
   stripeController.createCheckoutSession
 );
 
+paymentRouter.post(
+  '/cancel-subscription',
+  protect as any,
+  stripeController.cancelSubscription
+);
+
 export default paymentRouter;

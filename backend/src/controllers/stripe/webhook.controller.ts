@@ -1,7 +1,11 @@
 import type { Request, Response } from 'express';
 import { stripe } from '../../config/stripe.js';
 import { STRIPE_WEBHOOK_SECRET } from '../../config/env.js';
-import { User } from '../../models/user.model.js';
+import {
+  processCheckoutCompleted,
+  processSubscriptionUpdated,
+  processSubscriptionDeleted
+} from '../../services/stripe.service.js';
 
 export const handleWebhook = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
@@ -17,39 +21,23 @@ export const handleWebhook = async (req: Request, res: Response) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as any;
-    const plan = session.metadata?.plan ?? 'professional';
-
-    await User.findByIdAndUpdate(session.client_reference_id, {
-      stripeCustomerId: session.customer,
-      subscriptionId: session.subscription,
-      plan,
-      subscriptionStatus: 'active'
-    });
-  }
-
-  if (event.type === 'customer.subscription.updated') {
-    const subscription = event.data.object as any;
-    const status = subscription.status;
-
-    await User.findOneAndUpdate(
-      { stripeCustomerId: subscription.customer },
-      { subscriptionStatus: status }
-    );
-  }
-
-  if (event.type === 'customer.subscription.deleted') {
-    const subscription = event.data.object as any;
-
-    await User.findOneAndUpdate(
-      { stripeCustomerId: subscription.customer },
-      {
-        plan: 'starter',
-        subscriptionStatus: 'canceled',
-        subscriptionId: null
-      }
-    );
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        await processCheckoutCompleted(event.data.object);
+        break;
+      case 'customer.subscription.updated':
+        await processSubscriptionUpdated(event.data.object);
+        break;
+      case 'customer.subscription.deleted':
+        await processSubscriptionDeleted(event.data.object);
+        break;
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+  } catch (error) {
+    console.error(`Error processing webhook event ${event.type}:`, error);
+    // Even if processing fails, we return 200 so Stripe doesn't retry infinitely
   }
 
   res.json({ received: true });

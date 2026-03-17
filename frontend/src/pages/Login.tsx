@@ -3,7 +3,7 @@ import { LoginForm } from '../features/auth/components/LoginForm';
 
 const Login = () => {
   const location = useLocation();
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-(--color-bg-deep)">
       <div className="w-full max-w-md flex flex-col gap-8">

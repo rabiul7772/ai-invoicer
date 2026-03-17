@@ -16,6 +16,8 @@ import CheckoutSuccess from './pages/CheckoutSuccess';
 
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
+import { UnsubscribeHandler } from './features/profile/components/UnsubscribeHandler';
+
 const App = () => {
   return (
     <>
@@ -28,7 +30,7 @@ const App = () => {
             <Route path="/create-invoice" element={<CreateEditInvoice />} />
             <Route path="/edit-invoice/:id" element={<CreateEditInvoice />} />
             <Route path="/invoices/:id" element={<InvoiceDetails />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<UnsubscribeHandler />} />
           </Route>
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
           <Route path="/" element={<Home />} />

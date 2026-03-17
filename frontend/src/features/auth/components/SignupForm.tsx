@@ -5,15 +5,17 @@ import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
 import { motion } from 'motion/react';
 import { UserPlus } from 'lucide-react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { api } from '../../../services/api';
 
 import { useRegister } from '../hooks/useAuth';
 
 export const SignupForm = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const returnTo = location.state?.returnTo;
   const planId = location.state?.planId;
+  const from = location.state?.from;
 
   const { mutate: registerUser, isPending } = useRegister(
     returnTo === 'checkout' && planId
@@ -33,7 +35,13 @@ export const SignupForm = () => {
             }
           }
         }
-      : undefined
+      : from
+        ? {
+            onSuccessCallback: () => {
+              navigate(`${from.pathname}${from.search || ''}`);
+            }
+          }
+        : undefined
   );
 
   const {
