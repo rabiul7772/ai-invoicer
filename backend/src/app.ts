@@ -12,6 +12,7 @@ import aiRouter from './routes/ai.routes.js';
 import dashboardRouter from './routes/dashboard.routes.js';
 import seedRouter from './routes/seed.routes.js';
 import stripeRouter from './routes/stripe.routes.js';
+import healthRouter from './routes/health.routes.js';
 import { handleWebhook } from './controllers/stripe/webhook.controller.js';
 
 const app = express();
@@ -40,6 +41,7 @@ app.post(
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api/v1/health', healthRouter);
 app.use(arcjetMiddleware);
 
 // Routers (all need cookie parsing + auth middleware)
