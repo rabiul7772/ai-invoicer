@@ -1,3 +1,8 @@
+import { useUser } from '../../features/auth/hooks/useAuth';
+import { api } from '../../services/api';
+import { toast } from 'react-hot-toast';
+import { useState } from 'react';
+
 import { Check } from 'lucide-react';
 import { motion } from 'motion/react';
 import { PRICING_DATA } from '../../constants';
@@ -6,6 +11,8 @@ import {
   staggerContainer,
   buttonSpring
 } from '../../animations/variants';
+import { useNavigate } from 'react-router';
+import { TestModeBanner } from './TestModeBanner';
 
 interface PricingCardProps {
   name: string;
@@ -13,6 +20,8 @@ interface PricingCardProps {
   description: string;
   features: string[];
   isPopular?: boolean;
+  onSelect: (plan: string) => void;
+  isLoading?: boolean;
 }
 
 const PricingCard = ({
@@ -20,7 +29,9 @@ const PricingCard = ({
   price,
   description,
   features,
-  isPopular
+  isPopular,
+  onSelect,
+  isLoading
 }: PricingCardProps) => (
   <motion.div
     variants={fadeUp}
@@ -66,16 +77,57 @@ const PricingCard = ({
       whileHover="hover"
       whileTap="tap"
       variants={buttonSpring}
-      className={
-        isPopular ? 'btn-neon-primary w-full' : 'btn-neon-outline w-full'
-      }
+      disabled={isLoading}
+      onClick={() => onSelect(name.toUpperCase())}
+      className={`${
+        isPopular ? 'btn-neon-primary' : 'btn-neon-outline'
+      } w-full flex items-center justify-center gap-2`}
     >
-      {isPopular ? 'Start Trial' : 'Get Started'}
+      {isLoading ? (
+        <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+      ) : isPopular ? (
+        'Start Trial'
+      ) : (
+        'Get Started'
+      )}
     </motion.button>
   </motion.div>
 );
 
 export const Pricing = () => {
+  const { data: userResponse } = useUser();
+  const user = userResponse?.data?.user;
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleCheckout = async (plan: string) => {
+    if (!user) {
+      toast.error('Please login to continue to checkout');
+      navigate('/login', { state: { returnTo: 'checkout', planId: plan } });
+      return;
+    }
+
+    if (plan === 'STARTER') {
+      toast.success('You are already on the Starter plan!');
+      navigate('/dashboard');
+      return;
+    }
+
+    setLoadingPlan(plan);
+    try {
+      const response = await api.post('/stripe/create-checkout-session', {
+        planId: plan
+      });
+      window.location.href = response.data.url;
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message || 'Failed to initiate checkout'
+      );
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
   return (
     <section id="pricing" className="py-24 bg-(--color-bg-deep)">
       <div className="container-custom">
@@ -86,6 +138,9 @@ export const Pricing = () => {
           </h2>
         </div>
 
+        {/* Test Mode Banner */}
+        <TestModeBanner />
+
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center"
           variants={staggerContainer}
@@ -94,7 +149,12 @@ export const Pricing = () => {
           viewport={{ once: true, margin: '-50px' }}
         >
           {PRICING_DATA.map((plan, index) => (
-            <PricingCard key={index} {...plan} />
+            <PricingCard
+              key={index}
+              {...plan}
+              onSelect={handleCheckout}
+              isLoading={loadingPlan === plan.name.toUpperCase()}
+            />
           ))}
         </motion.div>
       </div>

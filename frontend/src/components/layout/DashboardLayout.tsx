@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
+import { Outlet } from 'react-router';
 import { Sidebar } from './Sidebar';
 
 interface DashboardLayoutProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
@@ -12,7 +13,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       {/* bg matching screenshot main area */}
       <Sidebar />
       <main className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-10 py-12">{children}</div>
+        <div className="max-w-5xl mx-auto px-10 py-12">
+          {children || <Outlet />}
+        </div>
       </main>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 export const InvoicesSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();

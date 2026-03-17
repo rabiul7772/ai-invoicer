@@ -11,6 +11,8 @@ import invoiceRouter from './routes/invoice.routes.js';
 import aiRouter from './routes/ai.routes.js';
 import dashboardRouter from './routes/dashboard.routes.js';
 import seedRouter from './routes/seed.routes.js';
+import stripeRouter from './routes/stripe.routes.js';
+import { handleWebhook } from './controllers/stripe/webhook.controller.js';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -27,17 +29,26 @@ app.use(
   })
 );
 
+// Stripe Webhook: must use raw body and bypass Arcjet bot detection (Stripe = bot)
+app.post(
+  '/api/v1/stripe/webhook',
+  express.raw({ type: 'application/json' }),
+  handleWebhook
+);
+
+// Standard middleware (after webhook so it doesn't interfere with raw body)
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(arcjetMiddleware);
 
-// Routers
+// Routers (all need cookie parsing + auth middleware)
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/invoices', invoiceRouter);
 app.use('/api/v1/ai', aiRouter);
 app.use('/api/v1/dashboard', dashboardRouter);
+app.use('/api/v1/stripe', stripeRouter);
 app.use('/api/v1/seed', seedRouter);
 
 app.use(errorMiddleware);

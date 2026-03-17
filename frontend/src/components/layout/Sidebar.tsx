@@ -1,11 +1,13 @@
 import { LogOut, FileText } from 'lucide-react';
 import { Link, NavLink } from 'react-router';
 import { navItems } from '../../constants';
-import { useLogout } from '../../features/auth/hooks/useAuth';
+import { useLogout, useUser } from '../../features/auth/hooks/useAuth';
 import { SeedDemoButton } from '../../features/dashboard/components/SeedDemoButton';
 
 export const Sidebar = () => {
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
+  const { data: userResponse } = useUser();
+  const plan = userResponse?.data?.user?.plan || 'starter';
 
   return (
     <aside className="w-64 border-r border-(--color-border) bg-(--color-bg-deep) flex flex-col h-screen sticky top-0">
@@ -51,14 +53,18 @@ export const Sidebar = () => {
         {/* Upgrade Card */}
         <div className="p-4 rounded-xl bg-(--color-bg-accent) border border-[rgba(0,255,136,0.1)]">
           <p className="text-[10px] font-bold text-(--color-primary) uppercase tracking-wider mb-2">
-            Pro Plan
+            Current Plan:{' '}
+            <span className="text-(--color-text-white)">{plan}</span>
           </p>
           <p className="text-xs text-(--color-text-dim) mb-4">
-            Get unlimited AI insights and custom templates.
+            Get unlimited AI insights & more.
           </p>
-          <button className="w-full py-2 bg-(--color-primary) text-(--color-bg-deep) text-sm font-bold rounded hover:bg-(--color-primary-hover) hover:shadow-(--shadow-neon) transition-all">
-            Upgrade Now
-          </button>
+          <a
+            href="/#pricing"
+            className="flex items-center justify-center w-full py-2 bg-(--color-primary) text-(--color-bg-deep) text-sm font-bold rounded hover:bg-(--color-primary-hover) hover:shadow-(--shadow-neon) transition-all"
+          >
+            Update Plan
+          </a>
         </div>
 
         {/* Logout */}

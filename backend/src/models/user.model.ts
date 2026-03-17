@@ -11,6 +11,10 @@ export interface IUser extends Document {
   phoneNumber?: string;
   address?: string;
   companyLogoUrl?: string;
+  stripeCustomerId?: string;
+  subscriptionId?: string;
+  plan: 'starter' | 'professional' | 'enterprise';
+  subscriptionStatus?: string;
   passwordResetToken?: string | undefined;
   passwordResetExpires?: Date | undefined;
   comparePassword: (password: string) => Promise<boolean>;
@@ -27,6 +31,14 @@ const userSchema = new Schema<IUser>(
     phoneNumber: { type: String, default: '' },
     address: { type: String, default: '' },
     companyLogoUrl: { type: String, default: '' },
+    stripeCustomerId: { type: String },
+    subscriptionId: { type: String },
+    plan: {
+      type: String,
+      enum: ['starter', 'professional', 'enterprise'],
+      default: 'starter'
+    },
+    subscriptionStatus: { type: String, default: 'none' },
     passwordResetToken: { type: String, select: false },
     passwordResetExpires: { type: Date }
   },

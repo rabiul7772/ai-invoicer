@@ -5,11 +5,45 @@ import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
 import { motion } from 'motion/react';
 import { UserPlus } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router';
+import { api } from '../../../services/api';
 
 import { useRegister } from '../hooks/useAuth';
 
 export const SignupForm = () => {
-  const { mutate: registerUser, isPending } = useRegister();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const returnTo = location.state?.returnTo;
+  const planId = location.state?.planId;
+  const from = location.state?.from;
+
+  const { mutate: registerUser, isPending } = useRegister(
+    returnTo === 'checkout' && planId
+      ? {
+          onSuccessCallback: async () => {
+            try {
+              const response = await api.post(
+                '/stripe/create-checkout-session',
+                {
+                  planId
+                }
+              );
+              window.location.href = response.data.url;
+            } catch (error) {
+              console.error('Failed to auto-redirect to checkout', error);
+              window.location.href = '/profile';
+            }
+          }
+        }
+      : from
+        ? {
+            onSuccessCallback: () => {
+              navigate(`${from.pathname}${from.search || ''}`);
+            }
+          }
+        : undefined
+  );
+
   const {
     register,
     handleSubmit,

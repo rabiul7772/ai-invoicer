@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { useInvoices } from '../hooks/useInvoices';
 import { InvoiceRow } from './InvoiceRow';
 import { Loader2 } from 'lucide-react';

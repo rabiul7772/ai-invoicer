@@ -12,7 +12,7 @@ export const useUser = () => {
   });
 };
 
-export const useLogin = () => {
+export const useLogin = (options?: { onSuccessCallback?: () => void }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -21,7 +21,8 @@ export const useLogin = () => {
     onSuccess: data => {
       queryClient.setQueryData(['user'], data);
       toast.success('Successfully logged in!');
-      navigate('/dashboard');
+      if (options?.onSuccessCallback) options.onSuccessCallback();
+      else navigate('/dashboard');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Login failed');
@@ -29,7 +30,7 @@ export const useLogin = () => {
   });
 };
 
-export const useRegister = () => {
+export const useRegister = (options?: { onSuccessCallback?: () => void }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -40,7 +41,8 @@ export const useRegister = () => {
       toast.success('please fill up your business info to create an invoice', {
         duration: 10000
       });
-      navigate('/profile');
+      if (options?.onSuccessCallback) options.onSuccessCallback();
+      else navigate('/profile');
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Registration failed');
