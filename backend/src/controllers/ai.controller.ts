@@ -184,7 +184,7 @@ Return ONLY the JSON array.`;
       .replace(/```/g, '')
       .trim();
     const insights = JSON.parse(cleanedJson);
-
+    console.log(insights);
     res.status(200).json({ status: 'success', data: insights });
   } catch (error: any) {
     handleAiError(error, res, 'Failed to generate AI insights');

@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Request, type Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { FRONTEND_URL, PORT } from './config/env.js';
@@ -55,7 +55,7 @@ app.use('/api/v1/seed', seedRouter);
 
 app.use(errorMiddleware);
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     message: 'AI Invoicer API is running'
