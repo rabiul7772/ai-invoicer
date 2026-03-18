@@ -17,18 +17,20 @@ export const InvoiceFormActions = ({
   const { reset } = useFormContext();
 
   return (
-    <div className="flex justify-end gap-6 pt-12 border-t border-[rgba(255,255,255,0.05)]">
+    <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 md:gap-4 pt-12 border-t border-[rgba(255,255,255,0.05)]">
       <Button
         variant="ghost"
         type="button"
-        className="border border-(--color-primary)"
+        size="sm"
+        className="md:px-6 md:py-2.5 md:text-xs border border-(--color-primary)"
         onClick={() => reset()}
       >
         Discard
       </Button>
       <Button
         variant="outline"
-        size="md"
+        size="sm"
+        className="md:px-6 md:py-2.5 md:text-xs"
         type="button"
         onClick={onPreview}
         isLoading={isGeneratingPdf}
@@ -38,7 +40,8 @@ export const InvoiceFormActions = ({
       <Button
         type="submit"
         variant="neon"
-        size="md"
+        size="sm"
+        className="md:px-6 md:py-2.5 md:text-xs"
         disabled={isSubmitting}
         isLoading={isSubmitting}
       >

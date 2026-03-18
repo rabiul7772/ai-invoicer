@@ -61,27 +61,27 @@ export const InvoicesTable = () => {
   }
 
   return (
-    <div className="card-premium overflow-hidden">
+    <div className="card-premium md:p-0! overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-[rgba(255,255,255,0.05)] text-left">
-              <th className="py-2.5 pl-6 w-[150px] whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pl-6 md:w-auto whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim) hidden sm:table-cell">
                 Invoice #
               </th>
-              <th className="py-2.5 min-w-[200px] whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pr-6 md:pr-4 md:min-w-0 whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
                 Client
               </th>
-              <th className="py-2.5 w-[110px] whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pr-6 md:pr-4 md:w-auto whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
                 Amount
               </th>
-              <th className="py-2.5 w-[110px] whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pr-6 md:pr-4 md:w-auto whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim) hidden sm:table-cell">
                 Due Date
               </th>
-              <th className="py-2.5 w-[110px] whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pr-6 md:pr-4 md:w-auto whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
                 Status
               </th>
-              <th className="py-2.5 pr-6 text-right whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
+              <th className="py-2.5 pr-6 md:pr-4 text-right whitespace-nowrap text-[9px] font-black uppercase tracking-widest text-(--color-text-dim)">
                 Actions
               </th>
             </tr>

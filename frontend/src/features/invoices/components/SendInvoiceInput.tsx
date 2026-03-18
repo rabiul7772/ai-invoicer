@@ -19,7 +19,7 @@ export const SendInvoiceInput = ({
     'w-full bg-(--color-bg-input) border border-(--color-border) rounded-lg px-4 py-2 text-(--color-text-bright) focus:outline-none focus:ring-2 focus:ring-(--color-primary) transition-all';
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1 sm:space-y-2">
       <label className="text-sm font-medium text-gray-400 capitalize">
         {label}
       </label>

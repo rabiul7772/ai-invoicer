@@ -84,7 +84,7 @@ const InvoiceDetails = () => {
                 onClick={() => setIsSendModalOpen(true)}
                 disabled={!invoice}
               >
-                {invoice.status === 'DRAFT' ? 'Send Invoice' : 'Send reminder'}
+                {invoice.status === 'DRAFT' ? 'Send' : 'Send reminder'}
               </Button>
             )}
           </div>
@@ -93,7 +93,7 @@ const InvoiceDetails = () => {
         {/* PDF Preview Container */}
         <div className="bg-(--color-bg-card) border border-(--color-border) rounded-2xl overflow-hidden shadow-2xl h-[800px] flex flex-col relative">
           {isGeneratingPdf && (
-            <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+            <div className="absolute inset-0 z-10 bg-black/40 backdrop-blur-sm flex justify-center items-start pt-32 sm:items-center sm:pt-0">
               <div className="flex flex-col items-center gap-4">
                 <Loader2 className="w-8 h-8 text-(--color-primary) animate-spin" />
                 <p className="text-white font-medium">Rendering PDF...</p>

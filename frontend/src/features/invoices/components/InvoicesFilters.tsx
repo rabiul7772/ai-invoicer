@@ -26,7 +26,7 @@ export const InvoicesFilters = () => {
   };
 
   return (
-    <div className="card-premium p-2 flex flex-col md:flex-row gap-2 mb-4">
+    <div className="card-premium p-2 flex flex-col md:flex-row gap-2 md:mb-0">
       {/* Status Filter Dropdown */}
       <div className="relative min-w-[140px]">
         <div

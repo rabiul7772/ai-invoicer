@@ -42,10 +42,10 @@ export const SendInvoiceModal = ({
         onClick={onClose}
       >
         <div
-          className="relative w-full max-w-lg bg-(--color-bg-card) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+          className="relative w-full max-w-lg bg-(--color-bg-card) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh]"
           onClick={e => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between p-2 px-4 border-b border-(--color-border) shrink-0">
+          <div className="flex items-center justify-between p-1 px-4 border-b border-(--color-border) shrink-0">
             <h2 className="text-xl font-bold text-(--color-text-bright)">
               {status === 'DRAFT' ? 'Send Invoice' : 'Send Reminder'}
             </h2>
@@ -59,7 +59,7 @@ export const SendInvoiceModal = ({
 
           <form
             onSubmit={onSubmit}
-            className="p-2 px-4 space-y-4 overflow-y-auto custom-scrollbar"
+            className="p-2 sm:p-4 space-y-2 sm:space-y-4 overflow-y-auto custom-scrollbar"
           >
             <SendInvoiceInput
               label="Recipient Name"
@@ -80,12 +80,12 @@ export const SendInvoiceModal = ({
             <SendInvoiceInput
               label="Message"
               type="textarea"
-              rows={7}
+              rows={8}
               register={register('message')}
               error={errors.message?.message}
             />
 
-            <div className="pt-4 flex gap-4">
+            <div className="pt-1 sm:pt-4 flex gap-4">
               <Button
                 variant="ghost"
                 type="button"
@@ -102,7 +102,7 @@ export const SendInvoiceModal = ({
                 icon={Mail}
                 className="flex-1"
               >
-                {isLoading ? 'Sending...' : 'Send Email'}
+                {isLoading ? 'Sending...' : 'Send'}
               </Button>
             </div>
           </form>

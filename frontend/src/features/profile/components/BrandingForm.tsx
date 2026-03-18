@@ -29,7 +29,7 @@ export const BrandingForm = ({ isSaving, isUploading }: BrandingFormProps) => {
   const loadingText = isUploading ? 'Uploading logo...' : 'Saving profile...';
 
   return (
-    <div className="mb-10">
+    <div className="mb-6 sm:mb-10">
       <div className="flex items-center gap-2 mb-6 text-(--color-primary) font-bold text-sm tracking-wide uppercase">
         <MonitorSmartphone className="w-5 h-5" />
         <span>Branding</span>

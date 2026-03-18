@@ -46,12 +46,12 @@ export const CreateWithAIModal = ({
         onClick={onClose}
       >
         <div
-          className="relative w-full max-w-xl bg-(--color-bg-card) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+          className="relative w-[95vw] max-w-xl bg-(--color-bg-card) border border-(--color-border) rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           onClick={e => e.stopPropagation()}
         >
           <AIModalHeader onClose={onClose} />
 
-          <div className="p-8 flex flex-col min-h-[400px]">
+          <div className="p-5 md:p-8 flex flex-col min-h-[350px] md:min-h-[400px]">
             {isProfileLoading ? (
               <div className="flex-1 flex flex-col items-center justify-center gap-4 text-(--color-text-dim)">
                 <Loader2 className="w-8 h-8 animate-spin text-(--color-primary)" />

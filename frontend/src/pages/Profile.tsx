@@ -22,7 +22,7 @@ const Profile = () => {
             avatarUrl={profileData?.avatarUrl}
           />
 
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-8 sm:gap-12">
             <PersonalProfileForm />
 
             <div className="h-px bg-[rgba(255,255,255,0.05)]" />
@@ -34,7 +34,7 @@ const Profile = () => {
             <BrandingForm isSaving={isSaving} isUploading={isUploading} />
           </div>
 
-          <div className="mt-12 flex justify-end">
+          <div className="mt-8 sm:mt-12 flex justify-end">
             <button
               type="submit"
               className="btn-neon-primary px-8"

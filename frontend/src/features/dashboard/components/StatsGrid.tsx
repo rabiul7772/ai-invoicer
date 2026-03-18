@@ -38,11 +38,11 @@ export const StatsGrid = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 animate-pulse">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="h-32 bg-[rgba(255,255,255,0.05)] rounded-xl"
+            className="h-24 md:h-32 bg-[rgba(255,255,255,0.05)] rounded-xl"
           />
         ))}
       </div>
@@ -50,7 +50,7 @@ export const StatsGrid = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       {stats.map(stat => (
         <StatCard key={stat.label} {...stat} />
       ))}

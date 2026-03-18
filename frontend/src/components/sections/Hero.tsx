@@ -19,7 +19,7 @@ export const Hero = () => {
   };
 
   return (
-    <section className="relative pt-32 pb-10 md:pt-48 md:pb-12 overflow-hidden">
+    <section className="relative pt-24 pb-10 md:pt-32 md:pb-12 overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-(--color-primary-muted) blur-[120px] rounded-full -z-10 opacity-30" />
 
       <motion.div

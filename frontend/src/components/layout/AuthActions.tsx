@@ -39,7 +39,7 @@ export const AuthActions = ({ className = '' }: { className?: string }) => {
     <div className={`flex items-center gap-6 ${className}`}>
       <Link to="/login">
         <motion.span
-          className="text-(--color-text-white) font-bold hover:text-(--color-primary) transition-colors cursor-pointer"
+          className="text-(--color-text-white) font-bold hover:text-(--color-primary) transition-colors cursor-pointer border border-(--color-primary) rounded-lg px-5 py-2"
           whileHover="hover"
           whileTap="tap"
           variants={buttonSpring}
