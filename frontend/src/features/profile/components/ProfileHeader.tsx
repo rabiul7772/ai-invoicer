@@ -24,16 +24,16 @@ export const ProfileHeader = ({
   };
 
   return (
-    <div className="mb-10">
-      <h1 className="text-3xl font-bold text-(--color-text-white) mb-2">
+    <div className="mb-6 sm:mb-10">
+      <h1 className="text-2xl sm:text-3xl font-bold text-(--color-text-white) mb-2">
         Profile Settings
       </h1>
-      <p className="text-(--color-text-dim) mb-10">
+      <p className="text-sm sm:text-base text-(--color-text-dim) mb-8 sm:mb-10">
         Manage your personal and business information
       </p>
 
       {/* Avatar Card */}
-      <div className="card-premium flex items-center gap-6 p-8">
+      <div className="card-premium flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-4 sm:gap-6 p-5 sm:p-8">
         <label htmlFor="avatarInput" className="relative cursor-pointer group">
           <div className="w-24 h-24 rounded-full bg-linear-to-tr from-[#1a4a38] to-[#0a1d14] border-2 border-[rgba(0,255,136,0.2)] overflow-hidden">
             {displayUrl ? (
@@ -61,11 +61,13 @@ export const ProfileHeader = ({
           />
         </label>
 
-        <div>
-          <h2 className="text-2xl font-bold text-(--color-text-white)">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-bold text-(--color-text-white) truncate">
             {name || 'Loading...'}
           </h2>
-          <p className="text-(--color-text-dim)">{email || ''}</p>
+          <p className="text-(--color-text-dim) truncate sm:whitespace-normal break-all">
+            {email || ''}
+          </p>
         </div>
       </div>
     </div>

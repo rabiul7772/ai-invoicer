@@ -19,7 +19,7 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
   } = useFormContext<InvoiceFormValues>();
 
   return (
-    <div className="flex flex-col md:flex-row gap-12 pt-8 border-t border-[rgba(255,255,255,0.05)]">
+    <div className="flex flex-col md:flex-row gap-8 md:gap-12 pt-8 border-t border-[rgba(255,255,255,0.05)]">
       <div className="flex-1 space-y-6">
         <div className="flex items-center gap-2 text-(--color-primary) font-bold text-sm tracking-wide uppercase">
           <MessageSquareText className="w-5 h-5" />
@@ -40,13 +40,13 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
             type="date"
             {...register('dueDate')}
             error={errors.dueDate?.message}
-            className="max-w-[240px] "
+            className="w-full md:max-w-[240px]"
           />
         </div>
       </div>
 
       <div className="w-full md:w-[350px]">
-        <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-8 space-y-6">
+        <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-6 md:p-8 space-y-6">
           <div className="flex justify-between items-center text-(--color-text-dim)">
             <span className="text-sm font-medium">Subtotal:</span>
             <span className="text-lg font-bold text-(--color-text-white)">
@@ -71,7 +71,7 @@ export const NotesSection = ({ totals }: NotesSectionProps) => {
             <span className="text-xl font-black text-(--color-text-bright) uppercase tracking-tighter">
               Total:
             </span>
-            <span className="text-5xl font-black text-[#00ff88] drop-shadow-[0_0_20px_rgba(0,255,136,0.3)] tracking-tighter">
+            <span className="text-4xl md:text-5xl font-black text-[#00ff88] drop-shadow-[0_0_20px_rgba(0,255,136,0.3)] tracking-tighter">
               $
               {totals?.totalAmount?.toLocaleString(undefined, {
                 minimumFractionDigits: 2

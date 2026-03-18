@@ -9,7 +9,7 @@ export const PersonalProfileForm = () => {
     formState: { errors }
   } = useFormContext<ProfileFormValues>();
   return (
-    <div className="mb-10">
+    <div className="mb-6 sm:mb-10">
       <div className="flex items-center gap-2 mb-6 text-(--color-primary) font-bold text-sm tracking-wide uppercase">
         <User className="w-5 h-5" />
         <span>Personal Profile</span>

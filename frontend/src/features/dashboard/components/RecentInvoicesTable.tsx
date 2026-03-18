@@ -21,26 +21,26 @@ export const RecentInvoicesTable = () => {
   }
 
   return (
-    <div className="card-premium border-[rgba(0,255,136,0.05)]! overflow-hidden">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-xl font-bold">Recent Invoices</h2>
+    <div className="card-premium border-[rgba(0,255,136,0.05)]! overflow-hidden p-4 sm:p-8">
+      <div className="flex items-center justify-between mb-4 sm:mb-8">
+        <h2 className="text-lg sm:text-xl font-bold">Recent Invoices</h2>
         <Link
           to="/invoices"
-          className="text-[#00ff88] text-sm font-bold flex items-center gap-1 hover:underline"
+          className="text-[#00ff88] text-xs sm:text-sm font-bold flex items-center gap-1 hover:underline"
         >
-          View All Invoices <ArrowRight className="w-4 h-4" />
+          View All <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
         </Link>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="text-[rgba(255,255,255,0.3)] text-xs font-black uppercase tracking-widest border-b border-[rgba(255,255,255,0.05)]">
-              <th className="pb-4 font-black">Client</th>
-              <th className="pb-4 font-black">Amount</th>
-              <th className="pb-4 font-black">Status</th>
-              <th className="pb-4 font-black hidden sm:table-cell">Due Date</th>
-              <th className="pb-4 text-right font-black">View</th>
+            <tr className="text-[rgba(255,255,255,0.3)] text-[10px] sm:text-xs font-black uppercase tracking-widest border-b border-[rgba(255,255,255,0.05)]">
+              <th className="pb-2 sm:pb-4 font-black">Client</th>
+              <th className="pb-2 sm:pb-4 font-black">Amount</th>
+              <th className="pb-2 sm:pb-4 font-black">Status</th>
+              <th className="pb-2 sm:pb-4 font-black hidden sm:table-cell">Due Date</th>
+              <th className="pb-2 sm:pb-4 text-right font-black">View</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(255,255,255,0.05)]">

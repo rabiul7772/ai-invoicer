@@ -50,16 +50,16 @@ export const InvoiceForm = () => {
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="relative flex gap-12"
+        className="relative flex flex-col md:flex-row gap-8 md:gap-12"
       >
         <div
-          className={`flex-1 space-y-12 transition-opacity duration-300 ${isLoading ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
+          className={`flex-1 space-y-8 md:space-y-12 transition-opacity duration-300 ${isLoading ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}
         >
           <InvoiceFormHeader isEditing={isEditing} />
 
           <div className="h-px bg-[rgba(255,255,255,0.05)]" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <BillSection
               title="Bill From"
               icon={Building2}

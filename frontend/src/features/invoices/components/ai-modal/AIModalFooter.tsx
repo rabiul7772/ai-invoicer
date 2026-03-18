@@ -15,7 +15,7 @@ export const AIModalFooter = ({
   canGenerate
 }: Props) => {
   return (
-    <div className="pt-4 flex gap-4">
+    <div className="pt-4 flex flex-col-reverse md:flex-row gap-3 md:gap-4">
       <Button
         variant="ghost"
         type="button"

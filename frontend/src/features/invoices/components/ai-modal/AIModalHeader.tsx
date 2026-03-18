@@ -6,12 +6,12 @@ interface Props {
 
 export const AIModalHeader = ({ onClose }: Props) => {
   return (
-    <div className="flex items-center justify-between p-6 border-b border-(--color-border) shrink-0">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-(--color-primary-muted) flex items-center justify-center text-(--color-primary)">
-          <Sparkles className="w-5 h-5" />
+    <div className="flex items-center justify-between p-5 md:p-6 border-b border-(--color-border) shrink-0">
+      <div className="flex items-center gap-2 md:gap-3">
+        <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-(--color-primary-muted) flex items-center justify-center text-(--color-primary)">
+          <Sparkles className="w-4 h-4 md:w-5 md:h-5" />
         </div>
-        <h2 className="text-xl font-bold text-(--color-text-bright)">
+        <h2 className="text-lg md:text-xl font-bold text-(--color-text-bright)">
           Create Invoice with AI
         </h2>
       </div>

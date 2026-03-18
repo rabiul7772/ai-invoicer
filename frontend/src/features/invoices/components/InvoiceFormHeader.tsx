@@ -25,24 +25,24 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
         </Link>
       )}
 
-      <div className="flex justify-between items-center text-left">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-4 text-left">
         <div className="flex-1">
-          <h1 className="text-4xl font-black text-(--color-text-bright) tracking-tight">
+          <h1 className="text-3xl md:text-4xl font-black text-(--color-text-bright) tracking-tight">
             {isEditing ? 'Edit Invoice' : 'Create Invoice'}
           </h1>
-          <p className="text-(--color-text-dim) mt-2">
+          <p className="text-sm md:text-base text-(--color-text-dim) mt-2">
             {isEditing
               ? 'Update the details below to refine your invoice.'
               : 'Fill in the details below to generate a professional invoice.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="md:px-6 md:py-2.5 md:text-xs border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
+            className="flex-1 md:flex-none md:px-6 md:py-2.5 md:text-xs border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
             icon={Sparkles}
             onClick={() => setIsAIModalOpen(true)}
           >
@@ -52,7 +52,7 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
             variant="ghost"
             type="button"
             size="sm"
-            className="md:px-6 md:py-2.5 md:text-xs border border-(--color-primary)"
+            className="flex-1 md:flex-none md:px-6 md:py-2.5 md:text-xs border border-(--color-primary)"
             onClick={() => reset()}
           >
             Discard

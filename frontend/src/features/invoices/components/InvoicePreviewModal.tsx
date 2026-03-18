@@ -37,15 +37,16 @@ export const InvoicePreviewModal = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-[rgba(255,255,255,0.05)]">
-          <h2 className="text-xl font-bold text-(--color-text-bright)">
+          <h2 className="hidden md:block text-xl font-bold text-(--color-text-bright)">
             Invoice Preview
           </h2>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
             <Button
               variant="neon"
               icon={Download}
               onClick={handleDownload}
               disabled={!pdfUrl}
+              className="flex-1 md:flex-none"
             >
               Download PDF
             </Button>

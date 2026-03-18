@@ -10,7 +10,7 @@ export const BusinessInfoForm = () => {
     formState: { errors }
   } = useFormContext<ProfileFormValues>();
   return (
-    <div className="mb-10">
+    <div className="mb-6 sm:mb-10">
       <div className="flex items-center gap-2 mb-6 text-(--color-primary) font-bold text-sm tracking-wide uppercase">
         <Briefcase className="w-5 h-5" />
         <span>Business Information</span>
