@@ -9,7 +9,7 @@ export const InvoicesHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <h1 className="text-3xl font-black text-(--color-text-bright) tracking-tight">
           All Invoices
@@ -19,17 +19,23 @@ export const InvoicesHeader = () => {
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <Button
           variant="outline"
-          className="border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
+          size="sm"
+          className="md:px-6 md:py-2.5 md:text-xs border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
           icon={Sparkles}
           onClick={() => setIsAIModalOpen(true)}
         >
           Create with AI
         </Button>
         <Link to="/create-invoice">
-          <Button variant="neon" icon={Plus}>
+          <Button
+            variant="neon"
+            size="sm"
+            className="md:px-6 md:py-2.5 md:text-xs"
+            icon={Plus}
+          >
             Create Invoice
           </Button>
         </Link>

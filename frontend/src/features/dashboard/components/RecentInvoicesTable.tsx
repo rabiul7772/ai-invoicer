@@ -39,7 +39,7 @@ export const RecentInvoicesTable = () => {
               <th className="pb-4 font-black">Client</th>
               <th className="pb-4 font-black">Amount</th>
               <th className="pb-4 font-black">Status</th>
-              <th className="pb-4 font-black">Due Date</th>
+              <th className="pb-4 font-black hidden sm:table-cell">Due Date</th>
               <th className="pb-4 text-right font-black">View</th>
             </tr>
           </thead>

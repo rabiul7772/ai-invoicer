@@ -35,33 +35,31 @@ export const InvoicesPagination = ({
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-1 sm:gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
       >
-        <span className="text-lg leading-none">&larr;</span> Previous
+        <span className="text-lg leading-none">&larr;</span>{' '}
+        <span className="hidden sm:inline">Previous</span>
       </button>
-
-      <span className="text-(--color-text-dim) font-medium">
-        Showing{' '}
+ 
+      <span className="text-(--color-text-dim) text-[10px] sm:text-xs font-medium truncate px-2">
+        <span className="hidden xs:inline">Showing </span>
         <span className="font-bold text-(--color-text-bright)">
-          {startResult}
-        </span>{' '}
-        to{' '}
-        <span className="font-bold text-(--color-text-bright)">
-          {endResult}
-        </span>{' '}
-        of{' '}
+          {startResult}-{endResult}
+        </span>
+        <span className="hidden xs:inline"> of </span>
+        <span className="xs:hidden">/</span>
         <span className="font-bold text-(--color-text-bright)">
           {totalCount}
-        </span>{' '}
-        results
+        </span>
       </span>
-
+ 
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+        className="text-(--color-text-dim) hover:text-(--color-primary) font-bold transition-all flex items-center gap-1 sm:gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
       >
-        Next <span className="text-lg leading-none">&rarr;</span>
+        <span className="hidden sm:inline">Next</span>{' '}
+        <span className="text-lg leading-none">&rarr;</span>
       </button>
     </div>
   );

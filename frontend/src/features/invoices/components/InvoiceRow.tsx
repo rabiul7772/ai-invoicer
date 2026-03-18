@@ -52,12 +52,12 @@ export const InvoiceRow = (props: InvoiceRowProps) => {
       onClick={() => navigate(`/invoices/${_id}`)}
       className="group border-b border-[rgba(255,255,255,0.03)] last:border-0 hover:bg-[rgba(255,255,255,0.01)] transition-colors cursor-pointer"
     >
-      <td className="py-2.5 pl-6">
+      <td className="py-6 md:py-3.5 pl-6 hidden sm:table-cell">
         <span className="font-bold text-sm text-(--color-text-bright) whitespace-nowrap">
           #INV-{_id.slice(-6).toUpperCase()}
         </span>
       </td>
-      <td className="py-2.5">
+      <td className="py-6 md:py-3.5 pr-6 md:pr-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-(--color-primary)/10 border border-(--color-primary)/20 flex items-center justify-center text-[10px] font-bold text-(--color-primary) shrink-0">
             {initials}
@@ -67,21 +67,21 @@ export const InvoiceRow = (props: InvoiceRowProps) => {
           </span>
         </div>
       </td>
-      <td className="py-2.5">
+      <td className="py-6 md:py-3.5 pr-6 md:pr-4">
         <span className="font-bold text-sm text-(--color-text-bright)">
           ${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </span>
       </td>
-      <td className="py-2.5 text-xs text-(--color-text-dim)">
+      <td className="py-6 md:py-3.5 pr-6 md:pr-4 text-xs text-(--color-text-dim) hidden sm:table-cell">
         {new Date(dueDate).toLocaleDateString()}
       </td>
-      <td className="py-2.5">
+      <td className="py-6 md:py-3.5 pr-6 md:pr-4">
         <Badge variant={displayVariant} className="scale-90 origin-left">
           {displayText}
         </Badge>
       </td>
-      <td className="py-2.5 pr-6">
-        <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+      <td className="py-6 md:py-3.5 pr-6 md:pr-4">
+        <div className="flex items-center justify-end gap-1 md:gap-1.5 whitespace-nowrap">
           {status !== 'PAID' && (
             <>
               <button

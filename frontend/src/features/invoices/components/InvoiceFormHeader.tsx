@@ -37,11 +37,12 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           <Button
             type="button"
             variant="outline"
-            className="border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
+            size="sm"
+            className="md:px-6 md:py-2.5 md:text-xs border-[rgba(0,255,136,0.2)] text-[#00ff88] hover:bg-[rgba(0,255,136,0.05)]"
             icon={Sparkles}
             onClick={() => setIsAIModalOpen(true)}
           >
@@ -50,7 +51,8 @@ export const InvoiceFormHeader = ({ isEditing }: InvoiceFormHeaderProps) => {
           <Button
             variant="ghost"
             type="button"
-            className="border border-(--color-primary)"
+            size="sm"
+            className="md:px-6 md:py-2.5 md:text-xs border border-(--color-primary)"
             onClick={() => reset()}
           >
             Discard
