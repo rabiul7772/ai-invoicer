@@ -21,8 +21,8 @@ export const RecentInvoicesTable = () => {
   }
 
   return (
-    <div className="card-premium border-[rgba(0,255,136,0.05)]! overflow-hidden p-4 sm:p-8">
-      <div className="flex items-center justify-between mb-4 sm:mb-8">
+    <div className="card-premium border-[rgba(0,255,136,0.05)]! overflow-hidden p-4 md:p-0!">
+      <div className="flex items-center justify-between mb-4 md:mb-6 md:px-6 md:pt-6">
         <h2 className="text-lg sm:text-xl font-bold">Recent Invoices</h2>
         <Link
           to="/invoices"
@@ -35,12 +35,12 @@ export const RecentInvoicesTable = () => {
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="text-[rgba(255,255,255,0.3)] text-[10px] sm:text-xs font-black uppercase tracking-widest border-b border-[rgba(255,255,255,0.05)]">
-              <th className="pb-2 sm:pb-4 font-black">Client</th>
-              <th className="pb-2 sm:pb-4 font-black">Amount</th>
-              <th className="pb-2 sm:pb-4 font-black">Status</th>
-              <th className="pb-2 sm:pb-4 font-black hidden sm:table-cell">Due Date</th>
-              <th className="pb-2 sm:pb-4 text-right font-black">View</th>
+            <tr className="text-[rgba(255,255,255,0.3)] text-[10px] md:text-[9px] font-black uppercase tracking-widest border-b border-[rgba(255,255,255,0.05)]">
+              <th className="pb-2 md:py-2.5 md:pl-6 font-black">Client</th>
+              <th className="pb-2 md:py-2.5 md:pr-4 font-black">Amount</th>
+              <th className="pb-2 md:py-2.5 md:pr-4 font-black">Status</th>
+              <th className="pb-2 md:py-2.5 md:pr-4 font-black hidden sm:table-cell">Due Date</th>
+              <th className="pb-2 md:py-2.5 md:pr-6 text-right font-black">View</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(255,255,255,0.05)]">
