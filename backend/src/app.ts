@@ -16,7 +16,7 @@ import healthRouter from './routes/health.routes.js';
 import { handleWebhook } from './controllers/stripe/webhook.controller.js';
 
 const app = express();
-app.set('trust proxy', 1);
+app.set('trust proxy', true); // Essential for Render/Vercel proxies
 
 if (!FRONTEND_URL || !PORT) {
   throw new Error('FRONTEND_URL or PORT is not defined in .env file');
