@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "devDependencies": {
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
+  "dependencies": {
+    "@arcjet/inspect": "^1.1.0",
+    "@arcjet/node": "^1.1.0",
+    "@google/genai": "^1.44.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
@@ -12,22 +21,6 @@
     "@types/multer": "^2.0.0",
     "@types/node": "^25.3.3",
     "@types/nodemailer": "^7.0.11",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  },
-  "scripts": {
-    "dev": "tsx watch src/app.ts",
-    "build": "tsc",
-    "start": "node dist/app.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "@arcjet/inspect": "^1.1.0",
-    "@arcjet/node": "^1.1.0",
-    "@google/genai": "^1.44.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
@@ -41,6 +34,10 @@
     "nodemailer": "^8.0.1",
     "puppeteer": "^24.38.0",
     "stripe": "^20.4.1",
+    "typescript": "^5.9.3",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
   }
 }
