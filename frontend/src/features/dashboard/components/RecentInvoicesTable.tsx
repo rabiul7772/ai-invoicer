@@ -39,8 +39,12 @@ export const RecentInvoicesTable = () => {
               <th className="pb-2 md:py-2.5 md:pl-6 font-black">Client</th>
               <th className="pb-2 md:py-2.5 md:pr-4 font-black">Amount</th>
               <th className="pb-2 md:py-2.5 md:pr-4 font-black">Status</th>
-              <th className="pb-2 md:py-2.5 md:pr-4 font-black hidden sm:table-cell">Due Date</th>
-              <th className="pb-2 md:py-2.5 md:pr-6 text-right font-black">View</th>
+              <th className="pb-2 md:py-2.5 md:pr-4 font-black hidden sm:table-cell">
+                Due Date
+              </th>
+              <th className="pb-2 md:py-2.5 md:pr-6 text-right font-black">
+                View
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[rgba(255,255,255,0.05)]">
