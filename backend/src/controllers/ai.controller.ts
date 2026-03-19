@@ -171,7 +171,8 @@ Output Format (STRICT JSON ARRAY OF OBJECTS):
   }
 ]
 
-Return ONLY the JSON array.`;
+IMPORTANT:Provide exactly 3 concise, professional business insights. Do not return an array of strings. Every element must be an object with "icon", "iconColor", and "content" fields.
+Return ONLY the JSON array, no preamble or extra characters.`;
 
     const result = await genAI.models.generateContent({
       model: modelName,
@@ -183,8 +184,21 @@ Return ONLY the JSON array.`;
       .replace(/```json/g, '')
       .replace(/```/g, '')
       .trim();
-    const insights = JSON.parse(cleanedJson);
-    console.log(insights);
+    let insights = JSON.parse(cleanedJson);
+
+    // Robust check: If AI returns array of strings instead of objects, transform them
+    if (
+      Array.isArray(insights) &&
+      insights.length > 0 &&
+      typeof insights[0] === 'string'
+    ) {
+      insights = insights.map((text: string) => ({
+        icon: 'Sparkles',
+        iconColor: '#00ff88',
+        content: text
+      }));
+    }
+
     res.status(200).json({ status: 'success', data: insights });
   } catch (error: any) {
     handleAiError(error, res, 'Failed to generate AI insights');
