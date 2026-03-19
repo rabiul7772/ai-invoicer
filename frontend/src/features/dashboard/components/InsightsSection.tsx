@@ -51,21 +51,25 @@ export const InsightsSection = () => {
             : 'grid-cols-1 lg:grid-cols-3'
         }`}
       >
-        {insights.map((insight, i) => {
-          const IconComponent = ICON_MAP[insight.icon] || Sparkles;
-          return (
-            <div
-              key={i}
-              className={insights.length === 1 ? 'flex justify-center' : ''}
-            >
-              <InsightCard
-                icon={IconComponent}
-                iconColor={insight.iconColor}
-                content={insight.content}
-              />
-            </div>
-          );
-        })}
+        {insights
+          .filter(
+            (insight: any) => typeof insight === 'object' && insight.content
+          )
+          .map((insight: any, i: number) => {
+            const IconComponent = ICON_MAP[insight.icon] || Sparkles;
+            return (
+              <div
+                key={i}
+                className={insights.length === 1 ? 'flex justify-center' : ''}
+              >
+                <InsightCard
+                  icon={IconComponent}
+                  iconColor={insight.iconColor || '#00ff88'}
+                  content={insight.content}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
