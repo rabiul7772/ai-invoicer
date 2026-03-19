@@ -33,18 +33,24 @@ export const getExecutablePath = () => {
   return undefined;
 };
 
-export const launchBrowser = async () => {
+let browserInstance: any = null;
+
+export const getBrowser = async () => {
+  if (browserInstance && browserInstance.isConnected()) {
+    return browserInstance;
+  }
+
   const executablePath = getExecutablePath();
-  
-  // On Render/Linux, if we didn't find a system browser, 
-  // let Puppeteer use its own downloaded one in the cache.
   const options: any = {
     headless: true,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu'
+      '--disable-dev-shm-usage', // Critical for Render/Docker
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process' // Use single process to save memory on 512MB tier
     ]
   };
 
@@ -52,6 +58,20 @@ export const launchBrowser = async () => {
     options.executablePath = executablePath;
   }
 
-  const browser = await puppeteer.launch(options);
-  return browser;
+  browserInstance = await puppeteer.launch(options);
+
+  // Handle browser crash/disconnect
+  browserInstance.on('disconnected', () => {
+    console.log('Puppeteer browser disconnected. Cleaning up instance.');
+    browserInstance = null;
+  });
+
+  return browserInstance;
+};
+
+/**
+ * @deprecated Use getBrowser() for better performance and memory management.
+ */
+export const launchBrowser = async () => {
+  return await getBrowser();
 };
