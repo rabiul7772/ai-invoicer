@@ -13,4 +13,4 @@ jobs:
         run: |
           # Use your actual Render backend URL here
           # If you haven't deployed yet, this ping will start working once you do.
-          curl -s https://ai-invoicer-backend.onrender.com/api/v1/health || echo "Endpoint not reachable yet"
+          curl -s https://ai-invoicer.onrender.com/api/v1/health || echo "Endpoint not reachable yet"
