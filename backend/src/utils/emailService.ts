@@ -42,6 +42,7 @@ class EmailService {
   }
 
   async sendEmail(options: SendEmailOptions) {
+    console.log(`✉️ Sending email to: ${options.to} | Subject: ${options.subject}`);
     const mailOptions = {
       from: `"AI Invoicer" <${SMTP_USER}>`,
       to: options.to,

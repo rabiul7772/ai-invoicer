@@ -9,7 +9,9 @@ export const processCheckoutCompleted = async (session: any) => {
   console.log(`👤 Attempting to update user ${userId} to plan ${plan}`);
 
   if (!userId) {
-    console.error('❌ No client_reference_id found in session. Cannot update user.');
+    console.error(
+      '❌ No client_reference_id found in session. Cannot update user.'
+    );
     return;
   }
 
@@ -33,16 +35,27 @@ export const processCheckoutCompleted = async (session: any) => {
   console.log(`✅ User ${user.email} updated successfully!`);
 
   if (user && user.email) {
-    // Send confirmation email asynchronously without blocking the webhook
+    console.log(
+      `📧 Triggering success email for user: ${user.email}, plan: ${plan}`
+    );
+
+    // Generate template
     const htmlEmail = getSubscriptionSuccessEmail(user.fullName, plan);
 
-    emailService
-      .sendEmail({
+    try {
+      // For debugging, we await the email send to see if it throws an error immediately
+      const emailResult = await emailService.sendEmail({
         to: user.email,
         subject: `Subscription Confirmed: ${plan.toUpperCase()} Plan`,
         html: htmlEmail
-      })
-      .catch(err => console.error('Error sending confirmation email:', err));
+      });
+      console.log(
+        '✅ Subscription email sent successfully!',
+        emailResult.messageId
+      );
+    } catch (err) {
+      console.error('❌ Failed to send subscription email:', err);
+    }
   }
 };
 
