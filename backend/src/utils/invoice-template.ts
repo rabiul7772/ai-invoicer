@@ -37,7 +37,107 @@ export const generateInvoiceHtml = (data: any): string => {
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Invoice</title>
-      <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @page { size: A4; margin: 0; }
+        body, p, h1, h2, h3, h4 { margin: 0; padding: 0; }
+        body { 
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          -webkit-print-color-adjust: exact;
+          padding: 2.5rem; /* Increased from 2.25rem */
+          width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+          background-color: white;
+          color: black;
+          min-height: 1000px;
+          display: flex;
+          flex-direction: column;
+        }
+        .grow { flex-grow: 1; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .justify-between { justify-content: space-between; }
+        .justify-end { justify-content: flex-end; }
+        .justify-center { justify-content: center; }
+        .items-start { align-items: flex-start; }
+        .items-center { align-items: center; }
+        .shrink-0 { flex-shrink: 0; }
+        .w-full { width: 100%; }
+        .w-24 { width: 6rem; }
+        .h-24 { height: 6rem; }
+        .w-1\/2 { width: 50%; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-2 { gap: 0.5rem; }
+        .space-y-8 > * + * { margin-top: 1.25rem; } /* Increased from 1rem */
+        .space-y-3 > * + * { margin-top: 0.5rem; } /* Increased from 0.35rem */
+        .border-b { border-bottom: 1px solid #e5e7eb; }
+        .border-b-2 { border-bottom: 2px solid #e5e7eb; }
+        .border-t { border-top: 1px solid #e5e7eb; }
+        .border { border: 1px solid #e5e7eb; }
+        .border-gray-100 { border-color: #f3f4f6; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .pb-8 { padding-bottom: 1.25rem; } /* Increased from 1rem */
+        .pt-6 { padding-top: 1rem; }
+        .pt-3 { padding-top: 0.5rem; } /* Increased from 0.35rem */
+        .pt-12 { padding-top: 1.5rem; } /* Increased from 1rem */
+        .pt-8 { padding-top: 1.5rem; } /* Increased from 1.25rem */
+        .py-4 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-3 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-2 { padding-top: 0.4rem; padding-bottom: 0.4rem; }
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-5 { padding-left: 1.25rem; padding-right: 1.25rem; }
+        .mt-2 { margin-top: 0.35rem; } /* Increased from 0.25rem */
+        .mt-1 { margin-top: 0.15rem; } /* Increased from 0.1rem */
+        .mt-4 { margin-top: 0.75rem; } /* Increased from 0.5rem */
+        .mt-8 { margin-top: 1.5rem; } /* Increased from 1rem */
+        .mt-12 { margin-top: 1.5rem; } /* Increased from 1rem */
+        .mb-1 { margin-bottom: 0.2rem; }
+        .mb-2 { margin-bottom: 0.4rem; }
+        .mb-4 { margin-bottom: 0.75rem; }
+        .mb-12 { margin-bottom: 2rem; } /* Increased from 1rem */
+        .ml-auto { margin-left: auto; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .overflow-hidden { overflow: hidden; }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .object-contain { object-fit: contain; }
+        .p-2 { padding: 0.5rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-md { font-size: 1rem; line-height: 1.5rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-\[10px\] { font-size: 10px; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        .font-black { font-weight: 900; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .tracking-tight { letter-spacing: -0.025em; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .tracking-\[0.15em\] { letter-spacing: 0.15em; }
+        .uppercase { text-transform: uppercase; }
+        .text-gray-900 { color: #111827; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-600 { color: #4b5563; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .whitespace-pre-wrap { white-space: pre-wrap; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-green-50 { background-color: #f0fdf4; }
+        .bg-red-50 { background-color: #fef2f2; }
+        .text-green-700 { color: #15803d; }
+        .text-red-700 { color: #b91c1c; }
+        .border-green-200 { border-color: #bbf7d0; }
+        .border-red-200 { border-color: #fecaca; }
+        .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+        .underline { text-decoration: underline; }
+        .text-\(--color-primary\) { color: #2563eb; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.5rem 0.5rem; }
+    </style>
     </head>
     <body class="bg-white text-black p-12 w-[800px] mx-auto space-y-8 font-sans flex flex-col min-h-[1050px]">
         
@@ -127,8 +227,8 @@ export const generateInvoiceHtml = (data: any): string => {
               <span>Tax</span>
               <span class="font-mono">$${Number(data.taxTotal || 0).toFixed(2)}</span>
             </div>
-            <div class="flex justify-between border-t border-gray-300 pt-3 text-xl font-extrabold text-gray-900">
-              <span>Total Due</span>
+            <div class="flex justify-between border-t border-gray-300 pt-3 text-xl font-extrabold text-gray-900 gap-2">
+              <span>Total Due:</span>
               <span class="font-mono">$${Number(data.totalAmount || 0).toFixed(2)}</span>
             </div>
           </div>
