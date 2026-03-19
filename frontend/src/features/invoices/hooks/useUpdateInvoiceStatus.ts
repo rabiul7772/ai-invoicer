@@ -10,6 +10,7 @@ export const useUpdateInvoiceStatus = () => {
     onSuccess: () => {
       // Invalidate and refetch invoices to show updated status
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      queryClient.invalidateQueries({ queryKey: ['ai-insights'] });
     }
   });
 };

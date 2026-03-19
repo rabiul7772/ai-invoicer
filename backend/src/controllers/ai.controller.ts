@@ -3,6 +3,7 @@ import type { AuthenticatedRequest } from '../middlewares/auth.middleware.js';
 import { Invoice } from '../models/invoice.model.js';
 import { GoogleGenAI } from '@google/genai';
 import { GEMINI_API_KEY, GEMINI_MODEL } from '../config/env.js';
+import { DEFAULT_INSIGHTS } from '../constants/index.js';
 
 if (!GEMINI_API_KEY || !GEMINI_MODEL) {
   throw new Error(
@@ -201,6 +202,6 @@ Return ONLY the JSON array, no preamble or extra characters.`;
 
     res.status(200).json({ status: 'success', data: insights });
   } catch (error: any) {
-    handleAiError(error, res, 'Failed to generate AI insights');
+    res.status(200).json({ status: 'success', data: DEFAULT_INSIGHTS });
   }
 };

@@ -35,15 +35,23 @@ export const getExecutablePath = () => {
 
 export const launchBrowser = async () => {
   const executablePath = getExecutablePath();
-  const browser = await puppeteer.launch({
+  
+  // On Render/Linux, if we didn't find a system browser, 
+  // let Puppeteer use its own downloaded one in the cache.
+  const options: any = {
     headless: true,
-    ...(executablePath ? { executablePath } : {}),
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage'
+      '--disable-dev-shm-usage',
+      '--disable-gpu'
     ]
-  });
+  };
 
+  if (executablePath) {
+    options.executablePath = executablePath;
+  }
+
+  const browser = await puppeteer.launch(options);
   return browser;
 };

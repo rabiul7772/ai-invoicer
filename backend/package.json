@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/app.ts",
-    "build": "tsc",
+    "build": "npx puppeteer browsers install chrome && tsc",
     "start": "node dist/app.js"
   },
   "dependencies": {

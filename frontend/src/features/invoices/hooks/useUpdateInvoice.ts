@@ -14,6 +14,7 @@ export const useUpdateInvoice = (id: string | undefined) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
       queryClient.invalidateQueries({ queryKey: ['invoice', id] });
+      queryClient.invalidateQueries({ queryKey: ['ai-insights'] });
       toast.success('Invoice updated successfully');
     },
     onError: (error: any) => {
