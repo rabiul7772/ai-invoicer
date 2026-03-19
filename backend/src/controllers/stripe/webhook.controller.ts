@@ -11,33 +11,46 @@ export const handleWebhook = async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
   let event;
 
+  console.log('🔔 Webhook received! Signature:', sig ? 'Present' : 'Missing');
+
   try {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig!,
       STRIPE_WEBHOOK_SECRET!
     );
+    console.log('✅ Webhook signature verified. Event type:', event.type);
   } catch (err: any) {
+    console.error('❌ Webhook Signature Verification Failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   try {
     switch (event.type) {
-      case 'checkout.session.completed':
-        await processCheckoutCompleted(event.data.object);
+      case 'checkout.session.completed': {
+        const session = event.data.object as any;
+        console.log('📦 Processing checkout.session.completed', {
+          id: session.id,
+          client_reference_id: session.client_reference_id,
+          customer: session.customer,
+          plan: session.metadata?.plan
+        });
+        await processCheckoutCompleted(session);
         break;
+      }
       case 'customer.subscription.updated':
+        console.log('🔄 Processing customer.subscription.updated');
         await processSubscriptionUpdated(event.data.object);
         break;
       case 'customer.subscription.deleted':
+        console.log('🗑️ Processing customer.subscription.deleted');
         await processSubscriptionDeleted(event.data.object);
         break;
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        console.log(`ℹ️ Unhandled event type: ${event.type}`);
     }
   } catch (error) {
-    console.error(`Error processing webhook event ${event.type}:`, error);
-    // Even if processing fails, we return 200 so Stripe doesn't retry infinitely
+    console.error(`❌ Error processing webhook event ${event.type}:`, error);
   }
 
   res.json({ received: true });

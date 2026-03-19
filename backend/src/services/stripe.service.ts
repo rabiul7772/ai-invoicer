@@ -4,10 +4,18 @@ import { getSubscriptionSuccessEmail } from '../utils/emailTemplates.js';
 
 export const processCheckoutCompleted = async (session: any) => {
   const plan = session.metadata?.plan ?? 'professional';
+  const userId = session.client_reference_id;
+
+  console.log(`👤 Attempting to update user ${userId} to plan ${plan}`);
+
+  if (!userId) {
+    console.error('❌ No client_reference_id found in session. Cannot update user.');
+    return;
+  }
 
   // Find user and update plan in one optimized query
   const user = await User.findByIdAndUpdate(
-    session.client_reference_id,
+    userId,
     {
       stripeCustomerId: session.customer,
       subscriptionId: session.subscription,
@@ -16,6 +24,13 @@ export const processCheckoutCompleted = async (session: any) => {
     },
     { new: true } // Return the updated document so we have the email
   );
+
+  if (!user) {
+    console.error(`❌ User not found with ID: ${userId}`);
+    return;
+  }
+
+  console.log(`✅ User ${user.email} updated successfully!`);
 
   if (user && user.email) {
     // Send confirmation email asynchronously without blocking the webhook
