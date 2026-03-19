@@ -23,6 +23,11 @@ class EmailService {
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      tls: {
+        rejectUnauthorized: false
       }
     });
 
