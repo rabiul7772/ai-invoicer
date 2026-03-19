@@ -10,6 +10,7 @@ export const useDeleteInvoice = () => {
     onSuccess: response => {
       toast.success(response.message || 'Invoice deleted successfully');
       queryClient.invalidateQueries({ queryKey: ['invoices'] });
+      queryClient.invalidateQueries({ queryKey: ['ai-insights'] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to delete invoice');

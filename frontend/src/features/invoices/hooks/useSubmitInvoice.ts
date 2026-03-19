@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 import type { UseFormReturn } from 'react-hook-form';
@@ -12,6 +13,7 @@ export const useSubmitInvoice = (
 ) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const onSubmit = async (data: InvoiceFormValues) => {
     try {
@@ -27,6 +29,7 @@ export const useSubmitInvoice = (
           response.message ||
             `Invoice ${isEditing ? 'updated' : 'created'} successfully!`
         );
+        queryClient.invalidateQueries({ queryKey: ['ai-insights'] });
         methods.reset();
         navigate(`/invoices/${response.data._id}`);
       } else {
