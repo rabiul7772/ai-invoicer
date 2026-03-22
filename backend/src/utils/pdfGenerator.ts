@@ -25,6 +25,12 @@ export const generatePDF = async (html: string) => {
     return Buffer.from(pdfBuffer);
   } finally {
     // Crucial: Only close the page, not the browser
-    if (page) await page.close();
+    if (page) {
+      try {
+        await page.close();
+      } catch (err) {
+        console.warn('Efficiency: Failed to close Puppeteer page (likely browser disconnected):', err);
+      }
+    }
   }
 };
