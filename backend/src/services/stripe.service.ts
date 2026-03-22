@@ -43,16 +43,12 @@ export const processCheckoutCompleted = async (session: any) => {
     const htmlEmail = getSubscriptionSuccessEmail(user.fullName, plan);
 
     try {
-      // For debugging, we await the email send to see if it throws an error immediately
-      const emailResult = await emailService.sendEmail({
+      await emailService.sendEmail({
         to: user.email,
         subject: `Subscription Confirmed: ${plan.toUpperCase()} Plan`,
         html: htmlEmail
       });
-      console.log(
-        '✅ Subscription email sent successfully!',
-        emailResult.messageId
-      );
+      console.log('✅ Subscription email sent successfully!');
     } catch (err) {
       console.error('❌ Failed to send subscription email:', err);
     }
