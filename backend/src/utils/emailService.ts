@@ -1,5 +1,11 @@
 import nodemailer from 'nodemailer';
+import dns from 'dns';
 import { SMTP_PASS, SMTP_USER } from '../config/env.js';
+
+// Force IPv4 preference for Node.js DNS resolution (Fixes Render ENETUNREACH)
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 interface SendEmailOptions {
   to: string;
