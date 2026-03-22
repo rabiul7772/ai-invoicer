@@ -23,19 +23,10 @@ class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // Use STARTTLS on 587
-      requireTLS: true,
-      family: 4, // Strict IPv4 force
-      debug: true,
-      logger: true,
+      service: 'gmail',
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
-      },
-      tls: {
-        rejectUnauthorized: false
       }
     } as any);
 
