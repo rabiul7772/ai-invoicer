@@ -1,5 +1,5 @@
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { CheckCircle2, ArrowRight, Sparkles, Mail } from 'lucide-react';
 import { Link } from 'react-router';
 import { fadeUp, staggerContainer } from '../animations/variants';
 
