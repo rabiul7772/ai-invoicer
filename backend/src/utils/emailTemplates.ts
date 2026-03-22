@@ -22,17 +22,6 @@ export const getSubscriptionSuccessEmail = (name: string, plan: string) => {
       </div>
 
       <p style="margin-bottom: 15px;">You can start using your new features immediately!</p>
-      
-      <a href="${loginUrl}" style="display: inline-block; padding: 10px 20px; background-color: #00ff88; color: #000; text-decoration: none; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">
-        Go to Dashboard
-      </a>
-      
-      <hr style="border: 1px solid #eee; margin: 15px 0;" />
-      
-      <p style="font-size: 12px; color: #888; text-align: center; margin-bottom: 0;">
-        If you wish to change your plan or cancel at any time, you can do 
-        so via 1-Click <a href="${profileUrl}?action=unsubscribe" style="color: #00ff88; font-weight: bold;">Unsubscribe</a>.
-      </p>
     </div>
   `;
 };
