@@ -7,12 +7,16 @@ import {
 } from '../../animations/variants';
 import { ScrollIndicator } from '../ui/ScrollIndicator';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 import { useUser } from '../../features/auth/hooks/useAuth';
+import { VideoModal } from '../ui/VideoModal';
+import { VIDEO_ID } from '../../constants';
 
 export const Hero = () => {
   const navigate = useNavigate();
   const { data: userResponse } = useUser();
   const isLoggedIn = !!userResponse?.data?.user;
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
 
   const handleGetStarted = () => {
     navigate(isLoggedIn ? '/invoices' : '/login');
@@ -73,6 +77,7 @@ export const Hero = () => {
             whileHover="hover"
             whileTap="tap"
             variants={buttonSpring}
+            onClick={() => setIsVideoOpen(true)}
           >
             <span>How to use</span>
             <Play className="w-4 h-4" />
@@ -81,6 +86,13 @@ export const Hero = () => {
 
         <ScrollIndicator />
       </motion.div>
+
+      {/* Video Modal */}
+      <VideoModal
+        isOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        videoId={VIDEO_ID}
+      />
     </section>
   );
 };
