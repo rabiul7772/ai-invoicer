@@ -4,6 +4,7 @@ export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
   .VITE_CLOUDINARY_UPLOAD_PRESET;
 
 export const INVOICE_PER_PAGE = 7;
+export const VIDEO_ID = 'z5BCbAAW01Y';
 
 import {
   BarChart3,
