@@ -21,6 +21,7 @@ class EmailService {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
+      family: 4, // Force IPv4
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
@@ -31,7 +32,7 @@ class EmailService {
       tls: {
         rejectUnauthorized: false
       }
-    });
+    } as any);
 
     // Verify connection configuration
     this.transporter.verify((error: Error | null) => {
