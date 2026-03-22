@@ -11,10 +11,6 @@ interface SendEmailOptions {
 
 class EmailService {
   async sendEmail(options: SendEmailOptions) {
-    console.log(
-      `✉️ Sending email to: ${options.to} | Subject: ${options.subject}`
-    );
-
     try {
       const result = await brevo.transactionalEmails.sendTransacEmail({
         sender: { name: 'AI Invoicer', email: SMTP_USER as string },
@@ -22,7 +18,6 @@ class EmailService {
         subject: options.subject,
         htmlContent: options.html
       });
-      console.log('✅ Email sent successfully via Brevo:', result);
     } catch (error) {
       console.error('❌ Send Error:', error);
       throw error;

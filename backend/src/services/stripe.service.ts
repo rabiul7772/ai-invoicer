@@ -6,8 +6,6 @@ export const processCheckoutCompleted = async (session: any) => {
   const plan = session.metadata?.plan ?? 'professional';
   const userId = session.client_reference_id;
 
-  console.log(`👤 Attempting to update user ${userId} to plan ${plan}`);
-
   if (!userId) {
     console.error(
       '❌ No client_reference_id found in session. Cannot update user.'
@@ -32,13 +30,7 @@ export const processCheckoutCompleted = async (session: any) => {
     return;
   }
 
-  console.log(`✅ User ${user.email} updated successfully!`);
-
   if (user && user.email) {
-    console.log(
-      `📧 Triggering success email for user: ${user.email}, plan: ${plan}`
-    );
-
     // Generate template
     const htmlEmail = getSubscriptionSuccessEmail(user.fullName, plan);
 
@@ -48,7 +40,6 @@ export const processCheckoutCompleted = async (session: any) => {
         subject: `Subscription Confirmed: ${plan.toUpperCase()} Plan`,
         html: htmlEmail
       });
-      console.log('✅ Subscription email sent successfully!');
     } catch (err) {
       console.error('❌ Failed to send subscription email:', err);
     }
@@ -70,13 +61,9 @@ export const processSubscriptionDeleted = async (
     ? { _id: userId }
     : { stripeCustomerId: subscription.customer };
 
-  const updatedUser = await User.findOneAndUpdate(
-    filter,
-    {
-      plan: 'starter',
-      subscriptionStatus: 'canceled',
-      subscriptionId: null
-    },
-    { returnDocument: 'after' }
-  );
+  await User.findOneAndUpdate(filter, {
+    plan: 'starter',
+    subscriptionStatus: 'canceled',
+    subscriptionId: null
+  });
 };
