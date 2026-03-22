@@ -48,12 +48,18 @@ export const getBrowser = async () => {
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage', // Critical for Render/Docker
       '--disable-gpu',
+      '--disable-extensions',
       '--no-first-run',
       '--no-zygote',
-      '--single-process' // Use single process to save memory on 512MB tier
+      '--disable-accelerated-2d-canvas',
+      '--disable-canvas-aa',
+      '--disable-2d-canvas-clip-aa',
+      '--disable-gl-drawing-for-tests',
+      '--font-render-hinting=none'
     ]
   };
 
+  // Only use custom executable path if it's found (otherwise let Puppeteer find its own)
   if (executablePath) {
     options.executablePath = executablePath;
   }
