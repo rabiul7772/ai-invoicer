@@ -17,20 +17,10 @@ class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      pool: true,
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      family: 4, // Force IPv4
+      service: 'gmail',
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
-      },
-      connectionTimeout: 60000,
-      greetingTimeout: 60000,
-      socketTimeout: 60000,
-      tls: {
-        rejectUnauthorized: false
       }
     } as any);
 
