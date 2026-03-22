@@ -8,8 +8,6 @@ export const {
   DB_URI,
   ARCJET_KEY,
   ARCJET_ENV,
-  SMTP_HOST,
-  SMTP_PORT,
   SMTP_USER,
   SMTP_PASS,
   GEMINI_API_KEY,
