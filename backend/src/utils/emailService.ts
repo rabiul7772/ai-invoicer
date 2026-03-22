@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } from '../config/env.js';
+import { SMTP_PASS, SMTP_USER } from '../config/env.js';
 
 interface SendEmailOptions {
   to: string;
@@ -17,15 +17,16 @@ class EmailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: Number(SMTP_PORT) || 587,
-      secure: Number(SMTP_PORT) === 465, // true for 465, false for other ports
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: SMTP_USER,
         pass: SMTP_PASS
       },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
+      connectionTimeout: 30000,
+      greetingTimeout: 30000,
+      socketTimeout: 30000,
       tls: {
         rejectUnauthorized: false
       }
@@ -42,7 +43,9 @@ class EmailService {
   }
 
   async sendEmail(options: SendEmailOptions) {
-    console.log(`✉️ Sending email to: ${options.to} | Subject: ${options.subject}`);
+    console.log(
+      `✉️ Sending email to: ${options.to} | Subject: ${options.subject}`
+    );
     const mailOptions = {
       from: `"AI Invoicer" <${SMTP_USER}>`,
       to: options.to,

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Sparkles, Mail } from 'lucide-react';
 import { Link } from 'react-router';
 import { fadeUp, staggerContainer } from '../animations/variants';
 
@@ -49,8 +49,7 @@ const CheckoutSuccess = () => {
           </Link>
 
           <div className="flex items-center justify-center gap-2 text-(--color-primary) font-medium">
-            <Sparkles className="w-4 h-4" />
-            <span>AI features are now enhanced</span>
+            <span>Please check your email for more information.</span>
           </div>
         </motion.div>
       </motion.div>

@@ -24,7 +24,7 @@ export const processCheckoutCompleted = async (session: any) => {
       plan,
       subscriptionStatus: 'active'
     },
-    { new: true } // Return the updated document so we have the email
+    { returnDocument: 'after' } // Return the updated document so we have the email
   );
 
   if (!user) {
@@ -81,6 +81,6 @@ export const processSubscriptionDeleted = async (
       subscriptionStatus: 'canceled',
       subscriptionId: null
     },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
