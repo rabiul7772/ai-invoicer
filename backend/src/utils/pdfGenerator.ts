@@ -29,7 +29,10 @@ export const generatePDF = async (html: string) => {
       try {
         await page.close();
       } catch (err) {
-        console.warn('Efficiency: Failed to close Puppeteer page (likely browser disconnected):', err);
+        console.warn(
+          'Efficiency: Failed to close Puppeteer page (likely browser disconnected):',
+          err
+        );
       }
     }
   }

@@ -1,6 +1,5 @@
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import { Invoice } from '../models/invoice.model.js';
-import { User } from '../models/user.model.js';
 
 const CLIENTS = [
   {
